@@ -29,37 +29,37 @@ func NewAccess(userRepository UserRepository, expectedSource string) *Access {
 func (a *Access) ValidateToken(IDToken string) error {
 	// Since the token's signature is already verified when getting the token information,
 	// We can skil the verifications in the parser and use it just to parse the token
-	// p := &jwt.Parser{
-	// 	SkipClaimsValidation: true,
-	// }
-	// token, _, err := p.ParseUnverified(IDToken, jwt.MapClaims{})
-	// if err != nil {
-	// 	return err
-	// }
+	p := &jwt.Parser{
+		SkipClaimsValidation: true,
+	}
+	token, _, err := p.ParseUnverified(IDToken, jwt.MapClaims{})
+	if err != nil {
+		return err
+	}
 
-	// claims, ok := token.Claims.(jwt.MapClaims)
-	// if !ok {
-	// 	return errors.New("invalid token: can't parse claims")
-	// }
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return errors.New("invalid token: can't parse claims")
+	}
 
-	// // Verifies if token is expired or not yet valid (exp claim)
-	// err = claims.Valid()
-	// if err != nil {
-	// 	return err
-	// }
+	// Verifies if token is expired or not yet valid (exp claim)
+	err = claims.Valid()
+	if err != nil {
+		return err
+	}
 
-	// // Verifies the iss claim
-	// if !claims.VerifyIssuer(a.trustedSource, true) {
-	// 	return errors.New("invalid 'iss' claim")
-	// }
+	// Verifies the iss claim
+	if !claims.VerifyIssuer(a.trustedSource, true) {
+		return errors.New("invalid 'iss' claim")
+	}
 
-	// // Verifies the sub claim
-	// userID, err := a.verifySubject(claims)
-	// if err != nil {
-	// 	return err
-	// }
+	// Verifies the sub claim
+	userID, err := a.verifySubject(claims)
+	if err != nil {
+		return err
+	}
 
-	return a.users.Retrieve(IDToken) //(userID)
+	return a.users.Retrieve(userID)
 }
 
 // Verifies that the subject of the token (the user id of who owns it) exists
