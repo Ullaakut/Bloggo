@@ -8,7 +8,7 @@ type UserRepositoryMock struct {
 }
 
 // Retrieve mock
-func (m *UserRepositoryMock) Retrieve(id string) error {
+func (m *UserRepositoryMock) Retrieve(id string) (bool, error) {
 	args := m.Called(id)
-	return args.Error(0)
+	return args.Bool(0), args.Error(1)
 }

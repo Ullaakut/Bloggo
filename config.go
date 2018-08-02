@@ -21,14 +21,14 @@ type Config struct {
 // DefaultConfig generates a configuration structure with the default values
 func DefaultConfig() Config {
 	return Config{
-		LogLevel:                "INFO",
+		LogLevel:                "DEBUG",
 		GracefulShutdownTimeout: 10 * time.Second,
 		ServerAddress:           "0.0.0.0",
 		ServerPort:              4242,
 
 		TrustedSource: "https://samples.auth0.com/",
 
-		MySQLURL: "root:root@tcp(mysql:3306)/bloggo?charset=utf8&parseTime=True&loc=Local",
+		MySQLURL: "root:root@tcp(0.0.0.0:3306)/bloggo?charset=utf8&parseTime=True&loc=Local",
 	}
 }
 

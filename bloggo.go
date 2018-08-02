@@ -7,9 +7,12 @@ import (
 	"syscall"
 
 	"github.com/Ullaakut/Bloggo/controller"
+	"github.com/Ullaakut/Bloggo/logger"
 	"github.com/Ullaakut/Bloggo/repo"
 	"github.com/Ullaakut/Bloggo/service"
+	"github.com/jinzhu/gorm"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/rs/zerolog"
@@ -18,14 +21,14 @@ import (
 
 func main() {
 
-	log := NewZeroLog(os.Stderr)
+	log := logger.NewZeroLog(os.Stderr)
 	log.Info().Msg("bloggo is barking up")
 
 	// TODO: Config override via config file, env, consul kv...
 	config := DefaultConfig()
 	config.Print(log)
 
-	zerolog.SetGlobalLevel(parseLevel(config.LogLevel))
+	zerolog.SetGlobalLevel(logger.ParseLevel(config.LogLevel))
 
 	// Catch signals
 	sig := make(chan os.Signal)
@@ -37,22 +40,22 @@ func main() {
 
 	// Use zerolog for debugging HTTP requests
 	e.Logger.SetLevel(5) // Disable default logging
-	e.Use(HTTPLogger(log))
+	e.Use(logger.HTTPLogger(log))
 
 	// Setup DB connector
-	// db, err := gorm.Open("mysql", config.MySQLURL)
-	// if err != nil {
-	// 	log.Fatal().Err(err).Msg("could not initialize mysql connection")
-	// 	os.Exit(1)
-	// }
+	db, err := gorm.Open("mysql", config.MySQLURL)
+	if err != nil {
+		log.Fatal().Err(err).Msg("could not initialize mysql connection")
+		os.Exit(1)
+	}
 
-	blogPostRepository := repo.NewBlogPostRepository() //(db)
-	userRepository := repo.NewUserRepository()         //(db)
+	blogPostRepository := repo.NewBlogPostRepositoryMySQL(log, db)
+	userRepository := repo.NewUserRepositoryMySQL(log, db)
 
-	accessService := service.NewAccess(userRepository, config.TrustedSource)
+	accessService := service.NewAccess(log, userRepository, config.TrustedSource)
 
-	blogController := controller.NewBlog(blogPostRepository)
-	authController := controller.NewAuth(accessService)
+	blogController := controller.NewBlog(log, blogPostRepository)
+	authController := controller.NewAuth(log, accessService)
 
 	// Bind route to controller method
 	e.POST("/posts", blogController.Create, authController.Authorize)
