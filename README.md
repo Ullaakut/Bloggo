@@ -2,6 +2,8 @@
 
 Bloggo is a blog CRUD that uses JWT tokens for authorization. See [OpenID Connect (OAuth 2.0) identity provider](https://samples.auth0.com/).
 
+<p align="center"><img src="images/bloggologo.png" width="350"/></p>
+
 ## Dependencies
 
 * `go` [Download](https://golang.org/dl/)

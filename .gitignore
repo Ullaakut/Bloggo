@@ -14,3 +14,6 @@ bloggo
 
 # Vendor
 /vendor
+
+# VScode config
+.DS_Store
