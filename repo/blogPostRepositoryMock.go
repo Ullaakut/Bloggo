@@ -11,9 +11,9 @@ type BlogPostRepositoryMock struct {
 }
 
 // Store mock
-func (m *BlogPostRepositoryMock) Store(content model.BlogPost) error {
+func (m *BlogPostRepositoryMock) Store(content *model.BlogPost) (*model.BlogPost, error) {
 	args := m.Called(content)
-	return args.Error(0)
+	return args.Get(0).(*model.BlogPost), args.Error(1)
 }
 
 // Retrieve mock

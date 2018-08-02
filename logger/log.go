@@ -1,4 +1,4 @@
-package main
+package logger
 
 import (
 	"io"
@@ -59,8 +59,8 @@ func NewZeroLog(writer io.Writer) *zerolog.Logger {
 	return &zl
 }
 
-// parseLevel parses a level from string to log level
-func parseLevel(level string) zerolog.Level {
+// ParseLevel parses a level from string to log level
+func ParseLevel(level string) zerolog.Level {
 	switch strings.ToUpper(level) {
 	case "FATAL":
 		return zerolog.FatalLevel
