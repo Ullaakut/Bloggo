@@ -3,11 +3,10 @@ package repo
 import (
 	errortypes "github.com/Ullaakut/Bloggo/errorTypes"
 	"github.com/Ullaakut/Bloggo/model"
-	"github.com/pkg/errors"
-	"sources.etixlabs.com/dcim/jungle/common/model/types"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 )
 
@@ -77,6 +76,7 @@ func (r *BlogPostRepositoryMySQL) Update(post *model.BlogPost) error {
 	}
 
 	post.CreatedAt = existingPost.CreatedAt
+	post.Author = existingPost.Author
 
 	// If it exists, saving this will overwrite the previous post
 	// with the same ID
@@ -94,7 +94,7 @@ func (r *BlogPostRepositoryMySQL) Delete(id uint) error {
 	// Get the blog post to make sure it exists
 	err := r.db.First(&blogPost, id).Error
 	if err == gorm.ErrRecordNotFound {
-		return types.ErrNotFound
+		return errortypes.ErrNotFound
 	}
 
 	// If it does, delete it
@@ -102,7 +102,7 @@ func (r *BlogPostRepositoryMySQL) Delete(id uint) error {
 	if mysqlError, ok := err.(*mysql.MySQLError); ok {
 		// foreign key failure
 		if mysqlError.Number == 1451 {
-			return errors.Wrap(types.ErrConflict, err.Error())
+			return errors.Wrap(errortypes.ErrConflict, err.Error())
 		}
 	}
 	return err
