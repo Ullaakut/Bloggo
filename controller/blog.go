@@ -19,6 +19,7 @@ type BlogRepository interface {
 	Retrieve(id uint) (*model.BlogPost, error)
 	RetrieveAll() ([]*model.BlogPost, error)
 	Store(post *model.BlogPost) (*model.BlogPost, error)
+	Update(post *model.BlogPost) error
 }
 
 // Blog is a controller that is in charge of handling the CRUD of blog posts
@@ -109,8 +110,32 @@ func (b *Blog) ReadAll(ctx echo.Context) error {
 
 // Update edits a blog post from its id
 func (b *Blog) Update(ctx echo.Context) error {
-	// TODO: Implement this func
-	return nil
+	// parse the ID from the URL parameter
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	if err != nil {
+		err = errors.Wrap(err, "could not parse blog post ID")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	var post model.BlogPost
+
+	err = ctx.Bind(&post)
+	if err != nil {
+		err = errors.Wrap(err, "could not parse blog post from request body")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	validate := v.New()
+	err = validate.Struct(post)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusUnprocessableEntity, err.Error())
+	}
+
+	post.ID = uint(id)
+	err = b.posts.Update(&post)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+	return ctx.NoContent(http.StatusNoContent)
 }
 
 // Delete removes a blog post from its id

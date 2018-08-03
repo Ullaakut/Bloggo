@@ -367,3 +367,121 @@ func TestReadAll(t *testing.T) {
 		})
 	}
 }
+
+func TestUpdate(t *testing.T) {
+	tests := []struct {
+		description string
+
+		requestBody       []byte
+		blogPostIDMissing bool
+		repositoryErr     error
+
+		expectedHTTPCode int
+		expectedHTTPBody []byte
+	}{
+		{
+			description: "created: passing test",
+
+			requestBody: []byte(`
+				{
+					"title": "lorem ipsum",
+					"content": "dolor sit amet"
+				}
+			`),
+
+			expectedHTTPCode: 204,
+			expectedHTTPBody: []byte(``),
+		},
+		{
+			description: "bad request: missing blog post id",
+
+			blogPostIDMissing: true,
+
+			expectedHTTPCode: 400,
+			expectedHTTPBody: []byte(`could not parse blog post ID: strconv.ParseUint: parsing "": invalid syntax`),
+		},
+		{
+			description: "bad request: bind fails",
+
+			requestBody: []byte(`Not json`),
+
+			expectedHTTPCode: 400,
+			expectedHTTPBody: []byte(`Syntax error: offset=1, error=invalid character 'N' looking for beginning of value`),
+		},
+		{
+			description: "unprocessable entity: invalid blog post",
+
+			requestBody: []byte(`{}`),
+
+			expectedHTTPCode: 422,
+			expectedHTTPBody: []byte(`Error:Field validation for 'Title' failed on the 'required' tag`),
+		},
+		{
+			description: "internal server error: repository failure",
+
+			requestBody: []byte(`
+				{
+					"title": "lorem ipsum",
+					"content": "dolor sit amet"
+				}
+			`),
+			repositoryErr: errors.New("database exploded"),
+
+			expectedHTTPCode: 500,
+			expectedHTTPBody: []byte(`database exploded`),
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.description, func(t *testing.T) {
+			// initialize the echo context to use for the test
+			e := echo.New()
+			r, err := http.NewRequest(echo.POST, "/posts", bytes.NewReader(test.requestBody))
+			if err != nil {
+				t.Fatal("could not create request")
+			}
+			r.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+
+			w := httptest.NewRecorder()
+			ctx := e.NewContext(r, w)
+
+			if !test.blogPostIDMissing {
+				ctx.SetParamNames("id")
+				ctx.SetParamValues("42")
+			}
+
+			blogPostRepositoryMock := &repo.BlogPostRepositoryMock{}
+			if test.repositoryErr != nil || test.expectedHTTPCode == 204 {
+				blogPostRepositoryMock.
+					On("Update", mock.AnythingOfType("*model.BlogPost")).
+					Return(test.repositoryErr).
+					Once()
+			}
+
+			logsBuff := &bytes.Buffer{}
+			log := logger.NewZeroLog(logsBuff)
+
+			blogController := &Blog{
+				posts: blogPostRepositoryMock,
+
+				log: log,
+			}
+
+			err = blogController.Update(ctx)
+
+			if err == nil {
+				assert.Equal(t, test.expectedHTTPCode, w.Code, "wrong response status")
+				assert.Equal(t, string(test.expectedHTTPBody), w.Body.String(), "wrong response body")
+			} else {
+				assert.Contains(t, err.Error(), fmt.Sprint(test.expectedHTTPCode), "wrong error response status")
+				if test.expectedHTTPBody != nil {
+					assert.Contains(t, err.Error(), string(test.expectedHTTPBody), "unexpected error response")
+				} else {
+					assert.Contains(t, w.Body, nil, "unexpected error response")
+				}
+			}
+
+			blogPostRepositoryMock.AssertExpectations(t)
+		})
+	}
+}
