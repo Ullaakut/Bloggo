@@ -7,9 +7,11 @@ import (
 
 	errortypes "github.com/Ullaakut/Bloggo/errorTypes"
 	"github.com/Ullaakut/Bloggo/model"
+
 	"github.com/labstack/echo"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
+	v "gopkg.in/go-playground/validator.v9"
 )
 
 // BlogRepository represents a repository that allows to create, read, update and delete blog posts
@@ -51,8 +53,11 @@ func (b *Blog) Create(ctx echo.Context) error {
 		return err
 	}
 
-	// TODO: Validate blog post before storing
-	// Return BadRequest
+	validate := v.New()
+	err = validate.Struct(post)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusUnprocessableEntity, err.Error())
+	}
 
 	// Set the author to the user ID so that the API can't be used manually
 	// to claim that a post was created by another user
