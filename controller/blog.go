@@ -88,7 +88,7 @@ func (b *Blog) Read(ctx echo.Context) error {
 	// retrieve the blog post from the blog post repository
 	blogPost, err := b.posts.Retrieve(uint(id))
 	if errors.Cause(err) == errortypes.ErrNotFound {
-		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id))
+		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id).Error())
 	}
 	if err != nil {
 		err = errors.Wrap(err, "could not read blog post")
@@ -133,6 +133,9 @@ func (b *Blog) Update(ctx echo.Context) error {
 
 	post.ID = uint(id)
 	err = b.posts.Update(&post)
+	if errors.Cause(err) == errortypes.ErrNotFound {
+		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id).Error())
+	}
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
@@ -151,7 +154,7 @@ func (b *Blog) Delete(ctx echo.Context) error {
 	// delete the blog post from the repository
 	err = b.posts.Delete(uint(id))
 	if errors.Cause(err) == errortypes.ErrNotFound {
-		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id))
+		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id).Error())
 	}
 	if err != nil {
 		err = errors.Wrap(err, "could not delete blog post")
