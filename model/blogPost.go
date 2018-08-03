@@ -11,7 +11,7 @@ type BlogPost struct {
 	Title     string    `json:"title" validate:"required"`
 	Content   string    `json:"content" validate:"required"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
-	// UpdatedAt time.Time // TODO maybe if I have time
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
 	// Comments   []Comment // TODO maybe if I have time
 	// Views   uint // TODO maybe if I have time
 }
