@@ -28,7 +28,7 @@ func DefaultConfig() Config {
 
 		TrustedSource: "https://samples.auth0.com/",
 
-		MySQLURL: "root:root@tcp(0.0.0.0:3306)/bloggo?charset=utf8&parseTime=True&loc=Local",
+		MySQLURL: "root:root@tcp(db:3306)/bloggo?charset=utf8&parseTime=True&loc=Local",
 	}
 }
 
