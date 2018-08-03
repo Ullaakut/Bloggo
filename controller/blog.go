@@ -16,10 +16,11 @@ import (
 
 // BlogRepository represents a repository that allows to create, read, update and delete blog posts
 type BlogRepository interface {
+	Store(post *model.BlogPost) (*model.BlogPost, error)
 	Retrieve(id uint) (*model.BlogPost, error)
 	RetrieveAll() ([]*model.BlogPost, error)
-	Store(post *model.BlogPost) (*model.BlogPost, error)
 	Update(post *model.BlogPost) error
+	Delete(id uint) error
 }
 
 // Blog is a controller that is in charge of handling the CRUD of blog posts
@@ -140,6 +141,21 @@ func (b *Blog) Update(ctx echo.Context) error {
 
 // Delete removes a blog post from its id
 func (b *Blog) Delete(ctx echo.Context) error {
-	// TODO: Implement this func
-	return nil
+	// extract the ID from the request parameters
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		err = errors.Wrap(err, "could not parse blog post ID")
+		return echo.NewHTTPError(http.StatusBadRequest, err)
+	}
+
+	// delete the blog post from the repository
+	err = b.posts.Delete(uint(id))
+	if errors.Cause(err) == errortypes.ErrNotFound {
+		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id))
+	}
+	if err != nil {
+		err = errors.Wrap(err, "could not delete blog post")
+		return echo.NewHTTPError(http.StatusInternalServerError, err)
+	}
+	return ctx.NoContent(http.StatusNoContent)
 }

@@ -34,5 +34,10 @@ func (m *BlogPostRepositoryMock) Update(content *model.BlogPost) error {
 	return args.Error(0)
 }
 
-// TODO: Add Delete
+// Delete mock
+func (m *BlogPostRepositoryMock) Delete(id uint) error {
+	args := m.Called(id)
+	return args.Error(0)
+}
+
 // TODO: Add Find? Retrieve with filters could be cool (filter by id, author, etc.)
