@@ -3,6 +3,7 @@ package repo
 import (
 	errortypes "github.com/Ullaakut/Bloggo/errorTypes"
 	"github.com/Ullaakut/Bloggo/model"
+	"github.com/pkg/errors"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -26,8 +27,8 @@ func NewBlogPostRepositoryMySQL(log *zerolog.Logger, db *gorm.DB) *BlogPostRepos
 }
 
 // Store saves a new blog post in the database.
-func (r *BlogPostRepositoryMySQL) Store(content *model.BlogPost) (*model.BlogPost, error) {
-	err := r.db.Create(content).Error
+func (r *BlogPostRepositoryMySQL) Store(post *model.BlogPost) (*model.BlogPost, error) {
+	err := r.db.Create(post).Error
 	if mysqlError, ok := err.(*mysql.MySQLError); ok {
 		// if the error is of type duplicate entry
 		if mysqlError.Number == 1062 {
@@ -35,7 +36,7 @@ func (r *BlogPostRepositoryMySQL) Store(content *model.BlogPost) (*model.BlogPos
 		}
 	}
 
-	return content, err
+	return post, err
 }
 
 // Retrieve returns the blog post with the given ID from the database
@@ -60,6 +61,30 @@ func (r *BlogPostRepositoryMySQL) RetrieveAll() ([]*model.BlogPost, error) {
 	return posts, err
 }
 
-// TODO: Add Update
+// Update saves a new blog post in the database.
+func (r *BlogPostRepositoryMySQL) Update(post *model.BlogPost) error {
+	var existingPost model.BlogPost
+
+	// First, check if the blog post already exists
+	// If not, return an error
+	err := r.db.First(&existingPost, post.ID).Error
+	if err == gorm.ErrRecordNotFound {
+		return errortypes.ErrNotFound
+	}
+	if err != nil {
+		return errors.Wrap(err, "could not get blog post from db")
+	}
+
+	post.CreatedAt = existingPost.CreatedAt
+
+	// If it exists, saving this will overwrite the previous post
+	// with the same ID
+	err = r.db.Save(&post).Error
+	if err != nil {
+		return errors.Wrap(err, "could not save blog post in DB")
+	}
+	return nil
+}
+
 // TODO: Add Delete
 // TODO: Add Find? Retrieve with filters could be cool (filter by id, author, etc.)

@@ -28,6 +28,11 @@ func (m *BlogPostRepositoryMock) RetrieveAll() ([]*model.BlogPost, error) {
 	return args.Get(0).([]*model.BlogPost), args.Error(1)
 }
 
-// TODO: Add Update
+// Update mock
+func (m *BlogPostRepositoryMock) Update(content *model.BlogPost) error {
+	args := m.Called(content)
+	return args.Error(0)
+}
+
 // TODO: Add Delete
 // TODO: Add Find? Retrieve with filters could be cool (filter by id, author, etc.)
