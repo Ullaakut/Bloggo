@@ -4,6 +4,7 @@ import (
 	errortypes "github.com/Ullaakut/Bloggo/errorTypes"
 	"github.com/Ullaakut/Bloggo/model"
 	"github.com/pkg/errors"
+	"sources.etixlabs.com/dcim/jungle/common/model/types"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -86,5 +87,25 @@ func (r *BlogPostRepositoryMySQL) Update(post *model.BlogPost) error {
 	return nil
 }
 
-// TODO: Add Delete
+// Delete deletes a blog post from the database from a given ID.
+func (r *BlogPostRepositoryMySQL) Delete(id uint) error {
+	var blogPost model.BlogPost
+
+	// Get the blog post to make sure it exists
+	err := r.db.First(&blogPost, id).Error
+	if err == gorm.ErrRecordNotFound {
+		return types.ErrNotFound
+	}
+
+	// If it does, delete it
+	err = r.db.Delete(&blogPost).Error
+	if mysqlError, ok := err.(*mysql.MySQLError); ok {
+		// foreign key failure
+		if mysqlError.Number == 1451 {
+			return errors.Wrap(types.ErrConflict, err.Error())
+		}
+	}
+	return err
+}
+
 // TODO: Add Find? Retrieve with filters could be cool (filter by id, author, etc.)
