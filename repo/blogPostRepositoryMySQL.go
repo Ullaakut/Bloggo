@@ -52,7 +52,14 @@ func (r *BlogPostRepositoryMySQL) Retrieve(id uint) (*model.BlogPost, error) {
 	return &post, err
 }
 
+// RetrieveAll returns the blog post with the given ID from the database
+func (r *BlogPostRepositoryMySQL) RetrieveAll() ([]*model.BlogPost, error) {
+	var posts []*model.BlogPost
+
+	err := r.db.Find(&posts).Error
+	return posts, err
+}
+
 // TODO: Add Update
 // TODO: Add Delete
-// TODO: Add RetrieveAll
 // TODO: Add Find? Retrieve with filters could be cool (filter by id, author, etc.)
