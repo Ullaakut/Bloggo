@@ -39,17 +39,17 @@ func (r *BlogPostRepositoryMySQL) Store(content *model.BlogPost) (*model.BlogPos
 }
 
 // Retrieve returns the blog post with the given ID from the database
-func (r *BlogPostRepositoryMySQL) Retrieve(id uint) (model.BlogPost, error) {
+func (r *BlogPostRepositoryMySQL) Retrieve(id uint) (*model.BlogPost, error) {
 	post := model.BlogPost{
 		ID: id,
 	}
 
 	err := r.db.Where(&post).First(&post).Error
 	if err == gorm.ErrRecordNotFound {
-		return post, errortypes.ErrNotFound
+		return &post, errortypes.ErrNotFound
 	}
 
-	return post, err
+	return &post, err
 }
 
 // TODO: Add Update

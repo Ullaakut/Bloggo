@@ -28,7 +28,7 @@ func TestValidateToken(t *testing.T) {
 	validSub := "auth0|596f27c2c3709661e9cea37d"
 	invalidSub := "auth1|596f27c2c3709661e9cea37d"
 
-	testCases := []struct {
+	tests := []struct {
 		description string
 
 		token         string
@@ -111,8 +111,8 @@ func TestValidateToken(t *testing.T) {
 		},
 	}
 
-	for idx, testCase := range testCases {
-		t.Run(testCase.description, func(t *testing.T) {
+	for idx, test := range tests {
+		t.Run(test.description, func(t *testing.T) {
 			userRepositoryMock := &repo.UserRepositoryMock{}
 
 			logsBuff := &bytes.Buffer{}
@@ -124,18 +124,18 @@ func TestValidateToken(t *testing.T) {
 				trustedSource: "https://samples.auth0.com/",
 			}
 
-			if !testCase.tokenErr {
-				userRepositoryMock.On("Retrieve", validSub).Return(true, testCase.repositoryErr)
+			if !test.tokenErr {
+				userRepositoryMock.On("Retrieve", validSub).Return(true, test.repositoryErr)
 				userRepositoryMock.On("Retrieve", invalidSub).Return(true, errors.New("user not found"))
 			}
 
-			userID, err := a.ValidateToken(testCase.token)
+			userID, err := a.ValidateToken(test.token)
 
-			if testCase.expectedError != nil {
+			if test.expectedError != nil {
 				assert.NotEqual(t, nil, err, "unexpected success in test case %d", idx)
-				assert.Equal(t, testCase.expectedError.Error(), err.Error(), "wrong error returned in test case %d", idx)
+				assert.Equal(t, test.expectedError.Error(), err.Error(), "wrong error returned in test case %d", idx)
 			} else {
-				assert.Equal(t, testCase.expectedUserID, userID, "unexpected userID in test case %d", idx)
+				assert.Equal(t, test.expectedUserID, userID, "unexpected userID in test case %d", idx)
 				assert.Equal(t, nil, err, "unexpected error in test case %d", idx)
 			}
 		})

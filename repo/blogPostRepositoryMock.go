@@ -17,9 +17,9 @@ func (m *BlogPostRepositoryMock) Store(content *model.BlogPost) (*model.BlogPost
 }
 
 // Retrieve mock
-func (m *BlogPostRepositoryMock) Retrieve(id uint) (model.BlogPost, error) {
+func (m *BlogPostRepositoryMock) Retrieve(id uint) (*model.BlogPost, error) {
 	args := m.Called(id)
-	return args.Get(0).(model.BlogPost), args.Error(1)
+	return args.Get(0).(*model.BlogPost), args.Error(1)
 }
 
 // TODO: Add Update
