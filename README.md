@@ -32,18 +32,19 @@ Bloggo is a blog CRUD that uses JWT tokens for authorization. See [OpenID Connec
 
 You can use the credentials below on [OpenID Connect](https://openidconnect.net/) to issue access tokens for testing.
 
-To get a valid admin account, use those credentials:
+To get a valid admin account, use this token:
 
-TODO: Create credentials for an admin account
+`eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJyZW5kYW4ubGUtZ2xhdW5lYyt0ZXN0YXBpQGVwaXRlY2guZXUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vc2FtcGxlcy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NTk2ZjI3YzJjMzcwOTY2MWU5Y2VhMzdkIiwiYXVkIjoia2J5dUZEaWRMTG0yODBMSXdWRmlhek9xak8zdHk4S0giLCJleHAiOjE2MDA0OTI5NjUsImlhdCI6MTUwMDQ1Njk2NX0.4To8mYgu4pM7J2G5jBTnKWelCTU1U1jo0QOENVp3pOk`
 
 To get an account that isn't admin, either connect using your own credentials, or use those credentials:
 
-TODO: Create credentials for non-admin account
+`eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJyZW5kYW4ubGUtZ2xhdW5lYytpbnZhbGlkaWRAZXBpdGVjaC5ldSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9zYW1wbGVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OTZmMjdjMmMzNzA5NjYxZTljZWEzN2UiLCJhdWQiOiJrYnl1RkRpZExMbTI4MExJd1ZGaWF6T3FqTzN0eThLSCIsImV4cCI6MTYwMDQ5Mjk2NSwiaWF0IjoxNTAwNDU2OTY1fQ.-a86RgUnCqVlplFff6-44E-FejFMuvWK5qEzLoUywhU`
 
-## Performance
+To use your own account on Bloggo, simply get a JWT token from [OpenIDConnect](https://openidconnect.net/), and use adminer to add your user ID to the admins like such:
 
-TODO: Estimate API performance
-TODO: Add benchmarks + add previous benchmark of token parsing
+<img width="300" alt="screenshot 2018-08-03 at 23 18 44" src="https://user-images.githubusercontent.com/6976628/43666375-ee4698b0-9773-11e8-9b23-103fad88cf4b.png">
+
+Then, you should be able to use your token on the API. Don't forget to add `Bearer` before your token in the `Authorization` header though.
 
 ## Possible future improvements
 
