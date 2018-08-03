@@ -62,7 +62,3 @@ TODO: Add invalid token
 ### Notes
 
 Echo actually provides a [JWT middleware](https://echo.labstack.com/middleware/jwt), but I feel like it would be cheating considering this is a coding exercise.
-
-Time management:
-
-* Wednesday 01/08: Spent ~3-4 hours building the base structure of the API (from my previous project [PAPI](https://github.com/Ullaakut/PAPI)) and putting ideas into code & TODOs.
