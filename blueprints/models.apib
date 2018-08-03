@@ -1,1 +1,35 @@
-// TODO: Define BlogPost model
+# Bloggo API
+
+# Data Structures
+
+## BadRequest (object)
++ code: 400 (number)
++ name: Bad Request (string)
++ message: Bad Request (string)
+
+## Unauthorized (object)
++ code: 401 (number)
++ name: Unauthorized (string)
++ message: Unauthorized (string)
+
+## NotFound (object)
++ code: 404 (number)
++ name: Not Found (string)
++ message: Not Found (string)
+
+## UnprocessableEntity (object)
++ code: 422 (number)
++ name: UnprocessableEntity (string)
++ message: UnprocessableEntity (string)
+
+## InternalServerError (object)
++ code: 500 (number)
++ name: Internal Server Error (string)
++ message: Internal Server Error (string)
+
+## BlogPost (object)
++ id: 1 (number) - database identifier
++ author: auth0|596f27c2c3709661e9cea37d (string) - the post's author's user id
++ title: `how to eat chinese food` (string) - the blog post's title
++ content: `using chopsticks` (string) - the blog post's content
++ created_at: "2018-08-03T00:00:00+02:00" (string) - blog post's creation date
