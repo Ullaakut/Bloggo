@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Ullaakut/Bloggo/errorTypes"
+	"github.com/Ullaakut/Bloggo/errortypes"
 	"github.com/Ullaakut/Bloggo/logger"
 	"github.com/Ullaakut/Bloggo/model"
 	"github.com/Ullaakut/Bloggo/repo"

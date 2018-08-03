@@ -1,7 +1,7 @@
 package repo
 
 import (
-	errortypes "github.com/Ullaakut/Bloggo/errorTypes"
+	"github.com/Ullaakut/Bloggo/errortypes"
 	"github.com/Ullaakut/Bloggo/model"
 
 	"github.com/go-sql-driver/mysql"

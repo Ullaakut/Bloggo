@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	errortypes "github.com/Ullaakut/Bloggo/errorTypes"
+	"github.com/Ullaakut/Bloggo/errortypes"
 	"github.com/Ullaakut/Bloggo/model"
 
 	"github.com/labstack/echo"

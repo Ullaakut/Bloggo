@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/Ullaakut/Bloggo/controller"
 	"github.com/Ullaakut/Bloggo/logger"
@@ -42,8 +43,7 @@ func main() {
 	e.Logger.SetLevel(5) // Disable default logging
 	e.Use(logger.HTTPLogger(log))
 
-	// Setup DB connector
-	db, err := gorm.Open("mysql", config.MySQLURL)
+	db, err := connectMySQL(log, config.MySQLURL)
 	if err != nil {
 		log.Fatal().Err(err).Msg("could not initialize mysql connection")
 		os.Exit(1)
@@ -94,4 +94,29 @@ func main() {
 	log.Info().Msg("bloggo shutdown complete")
 
 	os.Exit(0)
+}
+
+func connectMySQL(log *zerolog.Logger, url string) (*gorm.DB, error) {
+	// Setup DB connector
+	// Try 50 times, in case the db is slow to start
+	connectionAttempts := 0
+	var db *gorm.DB
+	for {
+		var err error
+		db, err = gorm.Open("mysql", url)
+		if err == nil {
+			break
+		}
+
+		if connectionAttempts > 50 {
+			return db, err
+		}
+		connectionAttempts++
+
+		log.Debug().Msg("failed to connect to mysql database, will retry in 2 seconds...")
+		<-time.After(2 * time.Second)
+	}
+
+	log.Debug().Msg("mysql connection successful")
+	return db, nil
 }

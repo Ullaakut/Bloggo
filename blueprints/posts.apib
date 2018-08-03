@@ -1,14 +1,44 @@
-# Bloggo API
+# Group blog posts
 
-The API of the Bloggo service.
-TODO: Finish the blueprint
-TODO: Show necessary authentication headers in API blueprint
+## Blog posts [/posts]
 
-## /posts
+All of Bloggo's posts
 
-### Get all posts [GET]
+### Create a new blog post [POST]
 
-This path returns the list of all of the blog posts currently stored in the database
+Creates a new blog post
+
++ Request
+
+    + Headers
+
+            Accept: application/json
+
+            Content-Type: application/json
+
+    + Attributes (BlogPost)
+
++ Response 201 (application/json)
+
+    The created blog post
+
+    + Attributes (BlogPost)
+
++ Response 400 (application/json)
+
+    + Attributes (BadRequest)
+
++ Response 422 (application/json)
+
+    + Attributes (UnprocessableEntity)
+
++ Response 500 (application/json)
+
+  + Attributes (InternalServerError)
+
+### Get all blog posts [GET]
+
+Returns the list of all of the blog posts currently stored in the database
 
 + Request
 
@@ -23,3 +53,105 @@ This path returns the list of all of the blog posts currently stored in the data
     An array of blog posts
 
     + Attributes (array[BlogPost])
+
++ Response 500 (application/json)
+
+  + Attributes (InternalServerError)
+
+## A specific blog post [/posts/{id}]
+
+A blog post that already exists in the database.
+
++ Parameters
+
+    + id: `1` (required, number) - The blog post's database identifier
+
+### Get a blog post [GET]
+
+Returns the list of all of the blog posts currently stored in the database
+
++ Request
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
++ Response 200 (application/json)
+
+    An array of blog posts
+
+    + Attributes (array[BlogPost])
+
++ Response 400 (application/json)
+
+  + Attributes (BadRequest)
+
++ Response 404 (application/json)
+
+  + Attributes (NotFound)
+
++ Response 500 (application/json)
+
+  + Attributes (InternalServerError)
+
+### Update a blog post [PUT]
+
+Updates a blog post currently stored in the database
+
++ Request
+
+    + Headers
+
+            Content-Type: application/json
+
+    + Attributes (BlogPost)
+
++ Response 204
+
+    The blog post has been successfully updated
+
+    + Body
+
++ Response 400 (application/json)
+
+  + Attributes (BadRequest)
+
++ Response 422 (application/json)
+
+    + Attributes (UnprocessableEntity)
+
++ Response 500 (application/json)
+
+  + Attributes (InternalServerError)
+
+### Delete a blog post [DELETE]
+
+Deletes a blog post currently stored in the database
+
++ Request
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
++ Response 204
+
+    The blog post has been successfully deleted
+
+    + Body
+
++ Response 400 (application/json)
+
+  + Attributes (BadRequest)
+
++ Response 404 (application/json)
+
+    + Attributes (NotFound)
+
++ Response 500 (application/json)
+
+  + Attributes (InternalServerError)
