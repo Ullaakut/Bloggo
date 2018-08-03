@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "76a90810-3c5c-4ccf-ad47-5af92ea6c413",
+		"name": "Bloggo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "382ab760-f256-4815-a0a0-746128050b0e",
+			"name": "List all posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://0.0.0.0:4242/posts",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "f0d264e7-ba87-4585-903b-6c48dc55126a",
+			"name": "Get post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://0.0.0.0:4242/posts/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "Gets a post from its database identifier"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "1b8ba36e-6d8d-4f81-8237-011e6dd29269",
+			"name": "Delete post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://0.0.0.0:4242/posts/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "Delete a post from its database identifier"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "2d53a38c-e6da-4979-93bc-c67b814efc78",
+			"name": "Update post",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"EDITED TITLE\",\n\t\"content\": \"EDITED CONTENT\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:4242/posts/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "Updates a post from its database identifier"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "d96efda6-ba00-4aa3-94df-822ccbf67794",
+			"name": "Create post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"ExampleTitle - Postman is great\",\n\t\"content\": \"ExampleContent - It makes it easy to work collaboratively on an API\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:4242/posts",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"posts"
+					]
+				},
+				"description": "Creates a new blog post"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJyZW5kYW4ubGUtZ2xhdW5lYyt0ZXN0YXBpQGVwaXRlY2guZXUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vc2FtcGxlcy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NTk2ZjI3YzJjMzcwOTY2MWU5Y2VhMzdkIiwiYXVkIjoia2J5dUZEaWRMTG0yODBMSXdWRmlhek9xak8zdHk4S0giLCJleHAiOjE2MDA0OTI5NjUsImlhdCI6MTUwMDQ1Njk2NX0.4To8mYgu4pM7J2G5jBTnKWelCTU1U1jo0QOENVp3pOk",
+				"type": "string"
+			}
+		]
+	}
+}
