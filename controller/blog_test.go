@@ -182,7 +182,7 @@ func TestRead(t *testing.T) {
 		expectedHTTPBody []byte
 	}{
 		{
-			description: "created: passing test",
+			description: "blog post exists: passing test",
 
 			retrievedBlogPost: &model.BlogPost{
 				ID:        1,
@@ -258,6 +258,98 @@ func TestRead(t *testing.T) {
 			}
 
 			err = blogController.Read(ctx)
+
+			if err == nil {
+				assert.Equal(t, test.expectedHTTPCode, w.Code, "wrong response status")
+				assert.Equal(t, string(test.expectedHTTPBody), w.Body.String(), "wrong response body")
+			} else {
+				assert.Contains(t, err.Error(), fmt.Sprint(test.expectedHTTPCode), "wrong error response status")
+				if test.expectedHTTPBody != nil {
+					assert.Contains(t, err.Error(), string(test.expectedHTTPBody), "unexpected error response")
+				} else {
+					assert.Contains(t, w.Body, nil, "unexpected error response")
+				}
+			}
+
+			blogPostRepositoryMock.AssertExpectations(t)
+		})
+	}
+}
+func TestReadAll(t *testing.T) {
+	tests := []struct {
+		description string
+
+		repositoryErr      error
+		retrievedBlogPosts []*model.BlogPost
+
+		expectedHTTPCode int
+		expectedHTTPBody []byte
+	}{
+		{
+			description: "passing test",
+
+			retrievedBlogPosts: []*model.BlogPost{
+				&model.BlogPost{
+					ID:        1,
+					Title:     "lorem ipsum",
+					Content:   "dolor sit amet",
+					Author:    "faketoken",
+					CreatedAt: time.Time{},
+				},
+			},
+
+			expectedHTTPCode: 200,
+			expectedHTTPBody: []byte(`[{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z"}]`),
+		},
+		{
+			description: "passing test: empty response",
+
+			retrievedBlogPosts: []*model.BlogPost{},
+
+			expectedHTTPCode: 200,
+			expectedHTTPBody: []byte(`[]`),
+		},
+		{
+			description: "internal server error: repository failure",
+
+			repositoryErr:      errors.New("database exploded"),
+			retrievedBlogPosts: nil,
+
+			expectedHTTPCode: 500,
+			expectedHTTPBody: []byte(`could not read blog posts: database exploded`),
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.description, func(t *testing.T) {
+			// initialize the echo context to use for the test
+			e := echo.New()
+			r, err := http.NewRequest(echo.GET, "/posts/", nil)
+			if err != nil {
+				t.Fatal("could not create request")
+			}
+
+			w := httptest.NewRecorder()
+			ctx := e.NewContext(r, w)
+
+			blogPostRepositoryMock := &repo.BlogPostRepositoryMock{}
+			if test.repositoryErr != nil || test.retrievedBlogPosts != nil {
+				blogPostRepositoryMock.
+					On("RetrieveAll").
+					Return(test.retrievedBlogPosts, test.repositoryErr).
+					Once()
+			}
+
+			logsBuff := &bytes.Buffer{}
+			log := logger.NewZeroLog(logsBuff)
+
+			blogController := &Blog{
+				posts: blogPostRepositoryMock,
+
+				log: log,
+			}
+
+			err = blogController.ReadAll(ctx)
 
 			if err == nil {
 				assert.Equal(t, test.expectedHTTPCode, w.Code, "wrong response status")

@@ -17,6 +17,7 @@ import (
 // BlogRepository represents a repository that allows to create, read, update and delete blog posts
 type BlogRepository interface {
 	Retrieve(id uint) (*model.BlogPost, error)
+	RetrieveAll() ([]*model.BlogPost, error)
 	Store(post *model.BlogPost) (*model.BlogPost, error)
 }
 
@@ -97,8 +98,13 @@ func (b *Blog) Read(ctx echo.Context) error {
 
 // ReadAll retrieves all blog posts
 func (b *Blog) ReadAll(ctx echo.Context) error {
-	// TODO: Implement this func
-	return nil
+	blogPosts, err := b.posts.RetrieveAll()
+	if err != nil {
+		err = errors.Wrap(err, "could not read blog posts")
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	return ctx.JSON(http.StatusOK, blogPosts)
 }
 
 // Update edits a blog post from its id
