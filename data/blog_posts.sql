@@ -13,7 +13,8 @@ CREATE TABLE `blog_posts` (
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `author` varchar(255) NOT NULL,
-  `created_at` date NOT NULL,
+  `updated_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
