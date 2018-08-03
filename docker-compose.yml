@@ -8,8 +8,12 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bloggo
     ports:
       - 3306:3306
+    volumes:
+      - ./data/blog_posts.sql:/docker-entrypoint-initdb.d/01-blog-posts.sql
+      - ./data/users.sql:/docker-entrypoint-initdb.d/02-users.sql
 
   adminer:
     image: adminer
