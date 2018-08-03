@@ -77,6 +77,7 @@ func (r *BlogPostRepositoryMySQL) Update(post *model.BlogPost) error {
 	}
 
 	post.CreatedAt = existingPost.CreatedAt
+	post.Author = existingPost.Author
 
 	// If it exists, saving this will overwrite the previous post
 	// with the same ID
