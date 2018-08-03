@@ -34,12 +34,13 @@ func TestNewAuth(t *testing.T) {
 	a := NewAuth(log, accessMock)
 
 	assert.Equal(t, accessMock, a.access, "unexpected access service set")
+	assert.Equal(t, log, a.log, "unexpected logger set")
 }
 
 func TestAuthorize(t *testing.T) {
 	fakeToken := "fakeToken"
 
-	testCases := []struct {
+	tests := []struct {
 		description string
 
 		authHeader        string
@@ -101,16 +102,16 @@ func TestAuthorize(t *testing.T) {
 			expectedHTTPBody: []byte("could not validate token"),
 		},
 	}
-	for _, testCase := range testCases {
-		t.Run(testCase.description, func(t *testing.T) {
+	for _, test := range tests {
+		t.Run(test.description, func(t *testing.T) {
 			// initialize the echo context to use for the test
 			e := echo.New()
 			r, err := http.NewRequest(echo.GET, "/", nil)
 			if err != nil {
 				t.Fatal("could not create request")
 			}
-			if !testCase.missingAuthHeader {
-				r.Header.Set("Authorization", testCase.authHeader)
+			if !test.missingAuthHeader {
+				r.Header.Set("Authorization", test.authHeader)
 			}
 
 			w := httptest.NewRecorder()
@@ -118,8 +119,8 @@ func TestAuthorize(t *testing.T) {
 
 			// Setup access service mock
 			accessMock := &AccessMock{}
-			if testCase.validAuthHeader {
-				accessMock.On("ValidateToken", fakeToken).Return("fakeUserID", testCase.validClaimsErr).Once()
+			if test.validAuthHeader {
+				accessMock.On("ValidateToken", fakeToken).Return("fakeUserID", test.validClaimsErr).Once()
 			}
 
 			logsBuff := &bytes.Buffer{}
@@ -138,12 +139,12 @@ func TestAuthorize(t *testing.T) {
 			})(ctx)
 
 			if err == nil {
-				assert.Equal(t, testCase.expectedHTTPCode, w.Code, "wrong response status")
-				assert.Equal(t, testCase.expectedHTTPBody, w.Body.Bytes(), "wrong response body")
+				assert.Equal(t, test.expectedHTTPCode, w.Code, "wrong response status")
+				assert.Equal(t, test.expectedHTTPBody, w.Body.Bytes(), "wrong response body")
 			} else {
-				assert.Contains(t, err.Error(), fmt.Sprint(testCase.expectedHTTPCode), "wrong error response status")
-				if testCase.expectedHTTPBody != nil {
-					assert.Contains(t, err.Error(), string(testCase.expectedHTTPBody), "unexpected error response")
+				assert.Contains(t, err.Error(), fmt.Sprint(test.expectedHTTPCode), "wrong error response status")
+				if test.expectedHTTPBody != nil {
+					assert.Contains(t, err.Error(), string(test.expectedHTTPBody), "unexpected error response")
 				} else {
 					assert.Contains(t, w.Body, nil, "unexpected error response")
 				}

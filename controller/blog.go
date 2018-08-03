@@ -16,7 +16,7 @@ import (
 
 // BlogRepository represents a repository that allows to create, read, update and delete blog posts
 type BlogRepository interface {
-	Retrieve(id uint) (model.BlogPost, error)
+	Retrieve(id uint) (*model.BlogPost, error)
 	Store(post *model.BlogPost) (*model.BlogPost, error)
 }
 
@@ -50,7 +50,7 @@ func (b *Blog) Create(ctx echo.Context) error {
 	if !ok {
 		err := errors.New("userID not set in request context")
 		b.log.Error().Err(err).Msg("potential security breach")
-		return err
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	validate := v.New()
@@ -68,7 +68,7 @@ func (b *Blog) Create(ctx echo.Context) error {
 
 	createdPost, err := b.posts.Store(&post)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	return ctx.JSON(http.StatusCreated, createdPost)
 }
@@ -85,7 +85,7 @@ func (b *Blog) Read(ctx echo.Context) error {
 	// retrieve the blog post from the blog post repository
 	blogPost, err := b.posts.Retrieve(uint(id))
 	if errors.Cause(err) == errortypes.ErrNotFound {
-		return echo.NewHTTPError(http.StatusNotFound)
+		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id))
 	}
 	if err != nil {
 		err = errors.Wrap(err, "could not read blog post")
