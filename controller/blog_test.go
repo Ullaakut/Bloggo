@@ -290,7 +290,7 @@ func TestReadAll(t *testing.T) {
 			description: "passing test",
 
 			retrievedBlogPosts: []*model.BlogPost{
-				&model.BlogPost{
+				{
 					ID:        1,
 					Title:     "lorem ipsum",
 					Content:   "dolor sit amet",
