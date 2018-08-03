@@ -49,6 +49,10 @@ Bloggo is a blog CRUD that uses JWT tokens for authorization.
 
 <img width="161" alt="screenshot 2018-08-03 at 20 10 31" src="https://user-images.githubusercontent.com/6976628/43658775-1dd15cf6-975a-11e8-82c0-258732e24ff9.png">
 
+## Demonstration
+
+[Simple demonstration video of the behavior of the API](https://youtu.be/c2bogbT6JB4)
+
 ## Testing
 
 You can use the credentials below on [OpenID Connect](https://openidconnect.net/) to issue access tokens for testing.
