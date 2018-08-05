@@ -27,7 +27,13 @@ func main() {
 
 	// TODO: Config override via config file, env, consul kv...
 	config := DefaultConfig()
+	config.JWTSecret = os.Getenv("BLOGGO_JWT_SECRET")
 	config.Print(log)
+
+	if config.JWTSecret == "" {
+		log.Fatal().Msg("JWT secret not set. please set it in the environment for bloggo to work properly")
+		os.Exit(1)
+	}
 
 	zerolog.SetGlobalLevel(logger.ParseLevel(config.LogLevel))
 
@@ -52,7 +58,7 @@ func main() {
 	blogPostRepository := repo.NewBlogPostRepositoryMySQL(log, db)
 	userRepository := repo.NewUserRepositoryMySQL(log, db)
 
-	accessService := service.NewAccess(log, userRepository, config.TrustedSource)
+	accessService := service.NewAccess(log, userRepository, config.TrustedSource, config.JWTSecret)
 
 	blogController := controller.NewBlog(log, blogPostRepository)
 	authController := controller.NewAuth(log, accessService)

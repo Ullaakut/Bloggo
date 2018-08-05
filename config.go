@@ -14,6 +14,7 @@ type Config struct {
 	ServerPort              uint
 
 	TrustedSource string
+	JWTSecret     string
 
 	MySQLURL string
 }
@@ -41,5 +42,6 @@ func (c Config) Print(log *zerolog.Logger) {
 		Dur("GraciousShutdownTimeout", c.GracefulShutdownTimeout).
 		Str("MySQLURL", c.MySQLURL).
 		Str("TrustedSource", c.TrustedSource).
+		Str("JWTSecret", "**************").
 		Msg("Configuration")
 }
