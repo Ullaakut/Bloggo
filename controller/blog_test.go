@@ -73,7 +73,7 @@ func TestCreate(t *testing.T) {
 			},
 
 			expectedHTTPCode: 201,
-			expectedHTTPBody: []byte(`{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z"}`),
+			expectedHTTPBody: []byte(`{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z"}`),
 		},
 		{
 			description: "bad request: bind fails",
@@ -193,7 +193,7 @@ func TestRead(t *testing.T) {
 			},
 
 			expectedHTTPCode: 200,
-			expectedHTTPBody: []byte(`{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z"}`),
+			expectedHTTPBody: []byte(`{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z"}`),
 		},
 		{
 			description: "bad request: missing blog post id",
@@ -300,7 +300,7 @@ func TestReadAll(t *testing.T) {
 			},
 
 			expectedHTTPCode: 200,
-			expectedHTTPBody: []byte(`[{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z"}]`),
+			expectedHTTPBody: []byte(`[{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z"}]`),
 		},
 		{
 			description: "passing test: empty response",
@@ -416,6 +416,20 @@ func TestUpdate(t *testing.T) {
 
 			expectedHTTPCode: 422,
 			expectedHTTPBody: []byte(`Error:Field validation for 'Title' failed on the 'required' tag`),
+		},
+		{
+			description: "not found",
+
+			requestBody: []byte(`
+				{
+					"title": "lorem ipsum",
+					"content": "dolor sit amet"
+				}
+			`),
+			repositoryErr: &ResourceNotFoundErr{},
+
+			expectedHTTPCode: 404,
+			expectedHTTPBody: []byte(`not found`),
 		},
 		{
 			description: "internal server error: repository failure",

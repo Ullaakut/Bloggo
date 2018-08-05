@@ -6,6 +6,8 @@ services:
     build: .
     ports:
       - 4242:4242
+    environment:
+      - BLOGGO_JWT_SECRET=x5fVmkmyMLAQJiJ8rvsGEAgetl9GS7j8
     depends_on:
       - db
 

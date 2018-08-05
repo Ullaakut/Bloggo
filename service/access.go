@@ -13,18 +13,21 @@ type UserRepository interface {
 
 // Access is a service that verifies access tokens
 type Access struct {
-	users         UserRepository
+	users UserRepository
+
 	trustedSource string
+	signingKey    string
 
 	log *zerolog.Logger
 }
 
 // NewAccess creates and configures an Access service
-func NewAccess(log *zerolog.Logger, userRepository UserRepository, expectedSource string) *Access {
+func NewAccess(log *zerolog.Logger, userRepository UserRepository, expectedSource, signingKey string) *Access {
 	return &Access{
 		log:           log,
 		users:         userRepository,
 		trustedSource: expectedSource,
+		signingKey:    signingKey,
 	}
 }
 
@@ -35,15 +38,15 @@ func (a *Access) ValidateToken(IDToken string) (string, error) {
 	p := &jwt.Parser{
 		SkipClaimsValidation: true,
 	}
-	token, _, err := p.ParseUnverified(IDToken, jwt.MapClaims{})
+	token, err := p.Parse(IDToken, func(*jwt.Token) (interface{}, error) {
+		return []byte(a.signingKey), nil
+	})
 	if err != nil {
 		return "", errors.Wrap(err, "invalid token")
 	}
 
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok {
-		return "", errors.New("invalid token: can't parse claims")
-	}
+	// should not be able to fail if call to p.Parse didn't fail
+	claims := token.Claims.(jwt.MapClaims)
 
 	// Verifies if token is expired or not yet valid (exp claim)
 	err = claims.Valid()
