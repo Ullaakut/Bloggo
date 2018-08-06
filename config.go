@@ -16,7 +16,9 @@ type Config struct {
 	TrustedSource string
 	JWTSecret     string
 
-	MySQLURL string
+	MySQLURL           string
+	MySQLRetryInterval time.Duration
+	MySQLRetryDuration time.Duration
 }
 
 // DefaultConfig generates a configuration structure with the default values
@@ -29,7 +31,9 @@ func DefaultConfig() Config {
 
 		TrustedSource: "https://samples.auth0.com/",
 
-		MySQLURL: "root:root@tcp(db:3306)/bloggo?charset=utf8&parseTime=True&loc=Local",
+		MySQLURL:           "root:root@tcp(db:3306)/bloggo?charset=utf8&parseTime=True&loc=Local",
+		MySQLRetryInterval: 2 * time.Second,
+		MySQLRetryDuration: 1 * time.Minute,
 	}
 }
 
@@ -41,6 +45,8 @@ func (c Config) Print(log *zerolog.Logger) {
 		Uint("ServerPort", c.ServerPort).
 		Dur("GraciousShutdownTimeout", c.GracefulShutdownTimeout).
 		Str("MySQLURL", c.MySQLURL).
+		Dur("MySQLRetryInterval", c.MySQLRetryInterval).
+		Dur("MySQLRetryDuration", c.MySQLRetryDuration).
 		Str("TrustedSource", c.TrustedSource).
 		Str("JWTSecret", "**************").
 		Msg("Configuration")
