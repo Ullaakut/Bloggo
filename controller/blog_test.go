@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Ullaakut/Bloggo/errortypes"
+	"github.com/Ullaakut/Bloggo/errortype"
 	"github.com/Ullaakut/Bloggo/logger"
 	"github.com/Ullaakut/Bloggo/model"
 	"github.com/Ullaakut/Bloggo/repo"
@@ -25,11 +25,11 @@ type ResourceNotFoundErr struct {
 }
 
 func (r *ResourceNotFoundErr) Cause() error {
-	return errortypes.ErrNotFound
+	return errortype.ErrNotFound
 }
 
 func (r *ResourceNotFoundErr) Error() string {
-	return errortypes.ErrNotFound.Error()
+	return errortype.ErrNotFound.Error()
 }
 
 func TestNewBlog(t *testing.T) {

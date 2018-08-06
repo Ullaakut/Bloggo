@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Ullaakut/Bloggo/errortypes"
+	"github.com/Ullaakut/Bloggo/errortype"
 	"github.com/Ullaakut/Bloggo/model"
 
 	"github.com/labstack/echo"
@@ -87,7 +87,7 @@ func (b *Blog) Read(ctx echo.Context) error {
 
 	// retrieve the blog post from the blog post repository
 	blogPost, err := b.posts.Retrieve(uint(id))
-	if errors.Cause(err) == errortypes.ErrNotFound {
+	if errors.Cause(err) == errortype.ErrNotFound {
 		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id).Error())
 	}
 	if err != nil {
@@ -133,7 +133,7 @@ func (b *Blog) Update(ctx echo.Context) error {
 
 	post.ID = uint(id)
 	err = b.posts.Update(&post)
-	if errors.Cause(err) == errortypes.ErrNotFound {
+	if errors.Cause(err) == errortype.ErrNotFound {
 		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id).Error())
 	}
 	if err != nil {
@@ -153,7 +153,7 @@ func (b *Blog) Delete(ctx echo.Context) error {
 
 	// delete the blog post from the repository
 	err = b.posts.Delete(uint(id))
-	if errors.Cause(err) == errortypes.ErrNotFound {
+	if errors.Cause(err) == errortype.ErrNotFound {
 		return echo.NewHTTPError(http.StatusNotFound, errors.Wrapf(err, "blog post id %d", id).Error())
 	}
 	if err != nil {
