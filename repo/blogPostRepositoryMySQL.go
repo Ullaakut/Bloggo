@@ -1,7 +1,7 @@
 package repo
 
 import (
-	"github.com/Ullaakut/Bloggo/errortypes"
+	"github.com/Ullaakut/Bloggo/errortype"
 	"github.com/Ullaakut/Bloggo/model"
 
 	"github.com/go-sql-driver/mysql"
@@ -32,7 +32,7 @@ func (r *BlogPostRepositoryMySQL) Store(post *model.BlogPost) (*model.BlogPost, 
 	if mysqlError, ok := err.(*mysql.MySQLError); ok {
 		// if the error is of type duplicate entry
 		if mysqlError.Number == 1062 {
-			return nil, errortypes.ErrDuplicateEntry
+			return nil, errortype.ErrDuplicateEntry
 		}
 	}
 
@@ -47,7 +47,7 @@ func (r *BlogPostRepositoryMySQL) Retrieve(id uint) (*model.BlogPost, error) {
 
 	err := r.db.Where(&post).First(&post).Error
 	if err == gorm.ErrRecordNotFound {
-		return &post, errortypes.ErrNotFound
+		return &post, errortype.ErrNotFound
 	}
 
 	return &post, err
@@ -69,7 +69,7 @@ func (r *BlogPostRepositoryMySQL) Update(post *model.BlogPost) error {
 	// If not, return an error
 	err := r.db.First(&existingPost, post.ID).Error
 	if err == gorm.ErrRecordNotFound {
-		return errortypes.ErrNotFound
+		return errortype.ErrNotFound
 	}
 	if err != nil {
 		return errors.Wrap(err, "could not get blog post from db")
@@ -94,7 +94,7 @@ func (r *BlogPostRepositoryMySQL) Delete(id uint) error {
 	// Get the blog post to make sure it exists
 	err := r.db.First(&blogPost, id).Error
 	if err == gorm.ErrRecordNotFound {
-		return errortypes.ErrNotFound
+		return errortype.ErrNotFound
 	}
 
 	// If it does, delete it
@@ -102,7 +102,7 @@ func (r *BlogPostRepositoryMySQL) Delete(id uint) error {
 	if mysqlError, ok := err.(*mysql.MySQLError); ok {
 		// foreign key failure
 		if mysqlError.Number == 1451 {
-			return errors.Wrap(errortypes.ErrConflict, err.Error())
+			return errors.Wrap(errortype.ErrConflict, err.Error())
 		}
 	}
 	return err
