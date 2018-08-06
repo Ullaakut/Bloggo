@@ -49,11 +49,22 @@ func main() {
 	e.Logger.SetLevel(5) // Disable default logging
 	e.Use(logger.HTTPLogger(log))
 
-	db, err := connectMySQL(log, config.MySQLURL)
+	// Initialize the database
+	// Retry until it is successful or the retryDuration is over
+	var db *gorm.DB
+	var err error
+	startTime := time.Now()
+	try(log, config.MySQLRetryInterval, func() error {
+		db, err = gorm.Open("mysql", config.MySQLURL)
+		return err
+	}, func() bool {
+		return time.Now().Sub(startTime) < config.MySQLRetryDuration
+	})
 	if err != nil {
 		log.Fatal().Err(err).Msg("could not initialize mysql connection")
 		os.Exit(1)
 	}
+	log.Info().Msg("connection to mysql successful")
 
 	blogPostRepository := repo.NewBlogPostRepositoryMySQL(log, db)
 	userRepository := repo.NewUserRepositoryMySQL(log, db)
@@ -102,27 +113,21 @@ func main() {
 	os.Exit(0)
 }
 
-func connectMySQL(log *zerolog.Logger, url string) (*gorm.DB, error) {
-	// Setup DB connector
-	// Try 50 times, in case the db is slow to start
-	connectionAttempts := 0
-	var db *gorm.DB
+// try tries to execute a given function
+// if it fails, it will keep retrying until the given shouldRetry function returns false
+func try(logger *zerolog.Logger, retryDelay time.Duration, fn func() error, shouldRetry func() bool) error {
 	for {
-		var err error
-		db, err = gorm.Open("mysql", url)
+		err := fn()
 		if err == nil {
-			break
+			return nil
 		}
 
-		if connectionAttempts > 50 {
-			return db, err
+		if !shouldRetry() {
+			logger.Error().Err(err).Msg("operation failed too many times, aborting")
+			return err
 		}
-		connectionAttempts++
 
-		log.Debug().Msg("failed to connect to mysql database, will retry in 2 seconds...")
-		<-time.After(2 * time.Second)
+		logger.Error().Err(err).Msg("operation failed, will retry")
+		time.Sleep(retryDelay)
 	}
-
-	log.Debug().Msg("mysql connection successful")
-	return db, nil
 }
