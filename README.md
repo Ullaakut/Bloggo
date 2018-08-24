@@ -6,14 +6,20 @@ Bloggo is a blog CRUD that uses JWT tokens for authorization.
     <img src="images/bloggologo.png" width="350"/>
 </p>
 <p align="center">
-    <a src="#license">
+    <a href="#license">
         <img src="https://img.shields.io/badge/license-Apache-blue.svg?style=flat" />
     </a>
-    <a src="https://goreportcard.com/report/github.com/Ullaakut/Bloggo">
+    <a href="https://goreportcard.com/report/github.com/Ullaakut/Bloggo">
         <img src="https://goreportcard.com/badge/github.com/Ullaakut/Bloggo" />
     </a>
-    <a src="https://github.com/Ullaakut/Bloggo/releases/latest">
+    <a href="https://github.com/Ullaakut/Bloggo/releases/latest">
         <img src="https://img.shields.io/github/release/Ullaakut/Bloggo.svg?style=flat" />
+    </a>
+    <a href="https://travis-ci.org/Ullaakut/Bloggo">
+        <img src="https://travis-ci.org/Ullaakut/Bloggo.svg?branch=master" />
+    </a>
+    <a href='https://coveralls.io/github/Ullaakut/Bloggo?branch=add-ci'>
+    <img src='https://coveralls.io/repos/github/Ullaakut/Bloggo/badge.svg?branch=add-ci' alt='Coverage Status' />
     </a>
 </p>
 
