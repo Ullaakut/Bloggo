@@ -1,0 +1,60 @@
+dist: trusty
+sudo: required
+language: go
+
+env:
+  - DEP_VERSION="0.4.1"
+
+services:
+  - docker
+
+before_install:
+# Stop the default MySQL service running on travis by default
+- sudo service mysql stop
+# Install docker
+- sudo apt-get remove docker docker-engine docker.io
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- sudo apt-get update
+- sudo apt-get install -y docker-ce
+# Install coveralls
+- go get github.com/mattn/goveralls
+# Install deps
+- go get gopkg.in/go-playground/validator.v9
+- go get github.com/stretchr/testify/assert
+- docker version
+- curl -L -s https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 -o $GOPATH/bin/dep
+- chmod +x $GOPATH/bin/dep
+
+install:
+- dep ensure
+- docker-compose build bloggo
+- docker-compose build blueprints
+
+script:
+# Run unit tests
+- go test github.com/Ullaakut/Bloggo/controller/ github.com/Ullaakut/Bloggo/service/ -v -covermode=count -coverprofile=coverage.out
+- $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+# Run bloggo for a few secs until it is connected to the db
+- docker-compose up -d
+- sleep 20
+# Makes requests and ensures that the responses are what is expected
+- (cd test && go test)
+# Save the logs somewhere
+- docker-compose logs bloggo > logs.txt
+# Stop bloggo
+- docker-compose stop
+# Print logs
+- cat logs.txt
+# Error if bloggo didn't start properly
+- cat logs.txt | grep "bloggo is up"
+# check if file contains more than one line
+# 1 line: Error message because no streams were found
+# More lines: Logs for all found cameras
+- if [[ $(wc -l <logs.txt) -lt 2 ]]; then exit 1; fi
+
+notifications:
+  email:
+    recipients:
+      - brendan.le-glaunec@epitech.eu
+    on_success: never
+    on_failure: always
