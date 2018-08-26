@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/Ullaakut/Bloggo/logger"
+	"github.com/Ullaakut/Bloggo/model"
 	"github.com/Ullaakut/Bloggo/repo"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
@@ -12,16 +13,17 @@ import (
 
 func TestNewAccess(t *testing.T) {
 	iss := "https://samples.auth0.com/"
-	sign := "https://samples.auth0.com/"
+	jws := "https://samples.auth0.com/"
 
 	userRepositoryMock := &repo.UserRepositoryMock{}
 
 	logsBuff := &bytes.Buffer{}
 	log := logger.NewZeroLog(logsBuff)
 
-	a := NewAccess(log, userRepositoryMock, iss, sign)
+	a := NewAccess(log, userRepositoryMock, iss, jws)
 
 	assert.Equal(t, iss, a.trustedSource, "unexpected issuer set")
+	assert.Equal(t, jws, a.jws, "unexpected jws set")
 	assert.Equal(t, userRepositoryMock, a.users, "unexpected user repo set")
 }
 
@@ -140,13 +142,13 @@ func TestValidateToken(t *testing.T) {
 				log:           log,
 				users:         userRepositoryMock,
 				trustedSource: "https://samples.auth0.com/",
-				signingKey:    "x5fVmkmyMLAQJiJ8rvsGEAgetl9GS7j8",
+				jws:           "x5fVmkmyMLAQJiJ8rvsGEAgetl9GS7j8",
 			}
 
 			if !test.tokenErr {
-				userRepositoryMock.On("Retrieve", validSub).Return(true, test.repositoryErr)
-				userRepositoryMock.On("Retrieve", notAdmin).Return(false, nil)
-				userRepositoryMock.On("Retrieve", invalidSub).Return(false, errors.New("user not found"))
+				userRepositoryMock.On("Retrieve", &model.User{TokenUserID: validSub}).Return(&model.User{IsAdmin: true}, test.repositoryErr)
+				userRepositoryMock.On("Retrieve", &model.User{TokenUserID: notAdmin}).Return(&model.User{IsAdmin: false}, nil)
+				userRepositoryMock.On("Retrieve", &model.User{TokenUserID: invalidSub}).Return(nil, errors.New("user not found"))
 			}
 
 			userID, err := a.ValidateToken(test.token)

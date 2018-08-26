@@ -28,8 +28,17 @@
 + message: Internal Server Error (string)
 
 ## BlogPost (object)
-+ id: 1 (number) - database identifier
-+ author: auth0|596f27c2c3709661e9cea37d (string) - the post's author's user id
-+ title: `how to eat chinese food` (string) - the blog post's title
-+ content: `using chopsticks` (string) - the blog post's content
-+ created_at: "2018-08-03T00:00:00+02:00" (string) - blog post's creation date
++ id: 1 (number, optional) - database identifier
++ author: auth0|596f27c2c3709661e9cea37d (string, optional) - the post's author's user id
++ title: `how to eat chinese food` (string, required) - the blog post's title
++ content: `using chopsticks` (string, required) - the blog post's content
++ created_at: "2018-08-03T00:00:00+02:00" (string, optional) - blog post's creation date
+
+## User (object)
++ id: auth0|596f27c2c3709661e9cea37d (string, optional) - JWT user ID
++ email: example@gmail.com (string, required) - user email
++ password: ********** (string, required) - user password
++ is_admin: true (boolean, optional) - whether or not the user has write access
+
+## Token (object)
++ token: x.y.z (string) - the generated JSON web token

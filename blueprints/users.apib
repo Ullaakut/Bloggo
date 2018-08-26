@@ -1,0 +1,69 @@
+# Group users
+
+## Register [/register]
+
+### Register [POST]
+
+Creates a new account using the token user ID
+
++ Request
+
+    + Headers
+
+            Accept: application/json
+
+            Content-Type: application/json
+
+    + Attributes (User)
+
++ Response 201 (application/json)
+
+    The created blog post
+
+    + Attributes (User)
+
++ Response 400 (application/json)
+
+    + Attributes (BadRequest)
+
++ Response 422 (application/json)
+
+    + Attributes (UnprocessableEntity)
+
++ Response 500 (application/json)
+
+  + Attributes (InternalServerError)
+
+## Login [/login]
+
+### Login [POST]
+
+Logs into an existing account
+
++ Request
+
+    + Headers
+
+            Accept: application/json
+
+            Content-Type: application/json
+
+    + Attributes (User)
+
++ Response 201 (application/json)
+
+    The generated token
+
+    + Attributes (Token)
+
++ Response 400 (application/json)
+
+    + Attributes (BadRequest)
+
++ Response 422 (application/json)
+
+    + Attributes (UnprocessableEntity)
+
++ Response 500 (application/json)
+
+  + Attributes (InternalServerError)

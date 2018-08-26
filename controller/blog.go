@@ -52,7 +52,6 @@ func (b *Blog) Create(ctx echo.Context) error {
 	userID, ok := ctx.Get("userID").(string)
 	if !ok {
 		err := errors.New("userID not set in request context")
-		b.log.Error().Err(err).Msg("potential security breach")
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 

@@ -29,7 +29,7 @@ func DefaultConfig() Config {
 		ServerAddress:           "0.0.0.0",
 		ServerPort:              4242,
 
-		TrustedSource: "https://samples.auth0.com/",
+		TrustedSource: "src.bloggo.com",
 
 		MySQLURL:           "root:root@tcp(db:3306)/bloggo?charset=utf8&parseTime=True&loc=Local",
 		MySQLRetryInterval: 2 * time.Second,
