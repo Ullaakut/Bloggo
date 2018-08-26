@@ -10,13 +10,13 @@ SET NAMES utf8mb4;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `token` varchar(255) NOT NULL,
-  `admin` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `token_user_id` varchar(255) NOT NULL,
+  `is_admin` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (email)
 
-INSERT INTO `users` (`id`, `token`, `admin`) VALUES
-(1,	'auth0|596f27c2c3709661e9cea37d',	1),
-(2,	'auth0|596f27c2c3709661e9cea37e',	0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 2018-08-03 05:08:01

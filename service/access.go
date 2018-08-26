@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/Ullaakut/Bloggo/model"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
@@ -8,7 +9,7 @@ import (
 
 // UserRepository reprensents a user repository to get users from their ids
 type UserRepository interface {
-	Retrieve(id string) (bool, error)
+	Retrieve(user *model.User) (*model.User, error)
 }
 
 // Access is a service that verifies access tokens
@@ -16,18 +17,18 @@ type Access struct {
 	users UserRepository
 
 	trustedSource string
-	signingKey    string
+	jws           string
 
 	log *zerolog.Logger
 }
 
 // NewAccess creates and configures an Access service
-func NewAccess(log *zerolog.Logger, userRepository UserRepository, expectedSource, signingKey string) *Access {
+func NewAccess(log *zerolog.Logger, userRepository UserRepository, expectedSource, jws string) *Access {
 	return &Access{
 		log:           log,
 		users:         userRepository,
 		trustedSource: expectedSource,
-		signingKey:    signingKey,
+		jws:           jws,
 	}
 }
 
@@ -39,7 +40,7 @@ func (a *Access) ValidateToken(IDToken string) (string, error) {
 		SkipClaimsValidation: true,
 	}
 	token, err := p.Parse(IDToken, func(*jwt.Token) (interface{}, error) {
-		return []byte(a.signingKey), nil
+		return []byte(a.jws), nil
 	})
 	if err != nil {
 		return "", errors.Wrap(err, "invalid token")
@@ -65,13 +66,11 @@ func (a *Access) ValidateToken(IDToken string) (string, error) {
 		return "", errors.Wrap(err, "invalid 'sub' claim")
 	}
 
-	a.log.Debug().Str("user_id", userID).Msg("extracted user id from token")
-
-	isAdmin, err := a.users.Retrieve(userID)
+	user, err := a.users.Retrieve(&model.User{TokenUserID: userID})
 	if err != nil {
 		return userID, err
 	}
-	if !isAdmin {
+	if !user.IsAdmin {
 		a.log.Debug().Msg("unauthorized user")
 		return userID, errors.New("user does not have write access")
 	}

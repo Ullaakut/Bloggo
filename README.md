@@ -19,7 +19,7 @@ Bloggo is a blog CRUD that uses JWT tokens for authorization.
         <img src="https://travis-ci.org/Ullaakut/Bloggo.svg?branch=master" />
     </a>
     <a href='https://coveralls.io/github/Ullaakut/Bloggo?branch=add-ci'>
-    <img src='https://coveralls.io/repos/github/Ullaakut/Bloggo/badge.svg?branch=add-ci' alt='Coverage Status' />
+        <img src='https://coveralls.io/repos/github/Ullaakut/Bloggo/badge.svg?branch=add-ci' alt='Coverage Status' />
     </a>
 </p>
 
@@ -47,21 +47,30 @@ Bloggo is a blog CRUD that uses JWT tokens for authorization.
 * `docker-compose up blueprints`
 * Visit `0.0.0.0:3000` in your favorite browser
 
-<img width="500" alt="screenshot 2018-08-03 at 20 55 27" src="https://user-images.githubusercontent.com/6976628/43660729-23b3a326-9760-11e8-9c7d-8d425eff6c02.png">
+<p align="center">
+    <img width="500"  src="images/blueprints.png">
+</p>
 
 ## Postman collection
 
 * Import the [collection](/postman/Bloggo.postman_collection.json) in Postman.
 
-<img width="161" alt="screenshot 2018-08-03 at 20 10 31" src="https://user-images.githubusercontent.com/6976628/43658775-1dd15cf6-975a-11e8-82c0-258732e24ff9.png">
-
-## Demonstration
-
-[Simple demonstration video of the behavior of the API](https://youtu.be/c2bogbT6JB4)
+<p align="center">
+    <img width="500" src="images/postmanCollection.png">
+    <img width="800" style="margin-bottom:55px" src="images/postmanExample.png">
+</p>
 
 ## Testing
 
 To test the API, I recommend [importing the postman collection and using Postman](#postman-collection).
+
+You will need to first register a new user using one of the provided requests, and to update the collection's authentication token with the token the registration API returned you.
+
+In order to do that, hover the `Bloggo` collection name in Postman and click on the three dots to see the collection options. Then, click on `Edit` and navigate to the `Authorization` tab. Finally, paste your token in the `Token` field, without the double quotes.
+
+<p align="center">
+    <img width="800" src="images/postmanUpdateToken.png">
+</p>
 
 ## License
 

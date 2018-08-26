@@ -70,11 +70,19 @@ func main() {
 	userRepository := repo.NewUserRepositoryMySQL(log, db)
 
 	accessService := service.NewAccess(log, userRepository, config.TrustedSource, config.JWTSecret)
+	tokenService := service.NewToken(log, userRepository, config.TrustedSource, config.JWTSecret)
 
 	blogController := controller.NewBlog(log, blogPostRepository)
+	userController := controller.NewUser(log, userRepository, tokenService)
 	authController := controller.NewAuth(log, accessService)
 
-	// Bind route to controller method
+	// Bind routes to controller methods
+
+	// Login&Registration API
+	e.POST("/register", userController.Register)
+	e.POST("/login", userController.Login)
+
+	// Blog post API
 	e.POST("/posts", blogController.Create, authController.Authorize)
 	e.GET("/posts", blogController.ReadAll)
 	e.GET("/posts/:id", blogController.Read)

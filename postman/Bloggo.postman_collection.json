@@ -1,17 +1,19 @@
 {
 	"info": {
-		"_postman_id": "76a90810-3c5c-4ccf-ad47-5af92ea6c413",
+		"_postman_id": "975a15ca-f485-483a-89e0-ace810828842",
 		"name": "Bloggo",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"_postman_id": "382ab760-f256-4815-a0a0-746128050b0e",
 			"name": "List all posts",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://0.0.0.0:4242/posts",
 					"protocol": "http",
@@ -30,12 +32,14 @@
 			"response": []
 		},
 		{
-			"_postman_id": "f0d264e7-ba87-4585-903b-6c48dc55126a",
 			"name": "Get post",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://0.0.0.0:4242/posts/1",
 					"protocol": "http",
@@ -56,12 +60,14 @@
 			"response": []
 		},
 		{
-			"_postman_id": "1b8ba36e-6d8d-4f81-8237-011e6dd29269",
 			"name": "Delete post",
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://0.0.0.0:4242/posts/1",
 					"protocol": "http",
@@ -82,7 +88,6 @@
 			"response": []
 		},
 		{
-			"_postman_id": "2d53a38c-e6da-4979-93bc-c67b814efc78",
 			"name": "Update post",
 			"request": {
 				"method": "PUT",
@@ -116,7 +121,6 @@
 			"response": []
 		},
 		{
-			"_postman_id": "d96efda6-ba00-4aa3-94df-822ccbf67794",
 			"name": "Create post",
 			"request": {
 				"method": "POST",
@@ -147,6 +151,134 @@
 				"description": "Creates a new blog post"
 			},
 			"response": []
+		},
+		{
+			"name": "Login admin account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"bob-admin@vance-refrigeration.com\",\n\t\"password\": \"refrigerator2000\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:4242/login",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"login"
+					]
+				},
+				"description": "Logs into the admin account"
+			},
+			"response": []
+		},
+		{
+			"name": "Login normal account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"bob@vance-refrigeration.com\",\n\t\"password\": \"refrigerator2000\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:4242/login",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"login"
+					]
+				},
+				"description": "Logs into the non admin account"
+			},
+			"response": []
+		},
+		{
+			"name": "Register normal account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"bob@vance-refrigeration.com\",\n\t\"password\": \"refrigerator2000\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:4242/register",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"register"
+					]
+				},
+				"description": "Creates a new non-admin account"
+			},
+			"response": []
+		},
+		{
+			"name": "Register admin account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"bob-admin@vance-refrigeration.com\",\n\t\"password\": \"refrigerator2000\",\n\t\"is_admin\": true\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:4242/register",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "4242",
+					"path": [
+						"register"
+					]
+				},
+				"description": "Creates a new admin account"
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -154,9 +286,31 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJyZW5kYW4ubGUtZ2xhdW5lYyt0ZXN0YXBpQGVwaXRlY2guZXUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vc2FtcGxlcy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NTk2ZjI3YzJjMzcwOTY2MWU5Y2VhMzdkIiwiYXVkIjoia2J5dUZEaWRMTG0yODBMSXdWRmlhek9xak8zdHk4S0giLCJleHAiOjE2MDA0OTI5NjUsImlhdCI6MTUwMDQ1Njk2NX0.E9z_zYD66k1CnfDVLe16oVuK_c-JYB0g2B0HbJ-PQcA",
+				"value": "ReplaceMeWithTokenFromRegistrationOrLogin",
 				"type": "string"
 			}
 		]
-	}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a9e3fe86-352e-4cbe-ba82-bcbf5c35d934",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b0ca0e51-d267-4625-9087-7bfadc4371dc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
 }
