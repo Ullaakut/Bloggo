@@ -1,6 +1,10 @@
 # Bloggo
 
-Bloggo is a blog CRUD that uses JWT tokens for authorization.
+Bloggo is a self-hosted blogging CMS. Or at least it will be. One day.
+
+For now it's essentially a CRUD with an authentication/authorization layer.
+
+Front-end incoming.
 
 <p align="center">
     <img src="images/bloggologo.png" width="350"/>
