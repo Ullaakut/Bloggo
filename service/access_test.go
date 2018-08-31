@@ -12,7 +12,6 @@ import (
 )
 
 func TestNewAccess(t *testing.T) {
-	iss := "https://samples.auth0.com/"
 	jws := "https://samples.auth0.com/"
 
 	userRepositoryMock := &repo.UserRepositoryMock{}
@@ -20,9 +19,8 @@ func TestNewAccess(t *testing.T) {
 	logsBuff := &bytes.Buffer{}
 	log := logger.NewZeroLog(logsBuff)
 
-	a := NewAccess(log, userRepositoryMock, iss, jws)
+	a := NewAccess(log, userRepositoryMock, jws)
 
-	assert.Equal(t, iss, a.trustedSource, "unexpected issuer set")
 	assert.Equal(t, jws, a.jws, "unexpected jws set")
 	assert.Equal(t, userRepositoryMock, a.users, "unexpected user repo set")
 }
@@ -48,22 +46,6 @@ func TestValidateToken(t *testing.T) {
 			token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJyZW5kYW4ubGUtZ2xhdW5lYyt0ZXN0YXBpQGVwaXRlY2guZXUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vc2FtcGxlcy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NTk2ZjI3YzJjMzcwOTY2MWU5Y2VhMzdkIiwiYXVkIjoia2J5dUZEaWRMTG0yODBMSXdWRmlhek9xak8zdHk4S0giLCJleHAiOjE2MDA0OTI5NjUsImlhdCI6MTUwMDQ1Njk2NX0.E9z_zYD66k1CnfDVLe16oVuK_c-JYB0g2B0HbJ-PQcA`,
 
 			expectedUserID: "auth0|596f27c2c3709661e9cea37d",
-		},
-		{
-			description: "invalid token, source not trusted",
-
-			token:    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJyZW5kYW4ubGUtZ2xhdW5lYyt0ZXN0YXBpQGVwaXRlY2guZXUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBkOi8vc2FtcGxlcy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NTk2ZjI3YzJjMzcwOTY2MWU5Y2VhMzdkIiwiYXVkIjoia2J5dUZEaWRMTG0yODBMSXdWRmlhek9xak8zdHk4S0giLCJleHAiOjE2MDA0OTI5NjUsImlhdCI6MTUwMDQ1Njk2NX0.ssULUbgQPn6kt69zutaIvpuUajfTJrqEZ0fs0IlPKyc",
-			tokenErr: true,
-
-			expectedError: errors.New("invalid 'iss' claim"),
-		},
-		{
-			description: "invalid token, 'iss' claim format is wrong",
-
-			token:    `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsZXgrc2FtcGxlQGJsdWVjYW52YXMuaW8iLCJuYW1lIjoiYWxleCtzYW1wbGVAYmx1ZWNhbnZhcy5pbyIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci9iMmZjNGViYzAyNzQyNjAxZmIyZDAyMTAyZGIxZmJhYT9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0aDAuY29tJTJGYXZhdGFycyUyRmFsLnBuZyIsIm5pY2tuYW1lIjoiYWxleCtzYW1wbGUiLCJhcHBfbWV0YWRhdGEiOnsiYXV0aG9yaXphdGlvbiI6eyJncm91cHMiOltdfX0sImF1dGhvcml6YXRpb24iOnsiZ3JvdXBzIjpbXX0sImdyb3VwcyI6W10sImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJjbGllbnRJRCI6ImtieXVGRGlkTExtMjgwTEl3VkZpYXpPcWpPM3R5OEtIIiwidXBkYXRlZF9hdCI6IjIwMTgtMDMtMjJUMTM6NDI6MjAuMDQxWiIsInVzZXJfaWQiOiJhdXRoMHw1OTZmMjdjMmMzNzA5NjYxZTljZWEzN2QiLCJpZGVudGl0aWVzIjpbeyJ1c2VyX2lkIjoiNTk2ZjI3YzJjMzcwOTY2MWU5Y2VhMzdkIiwicHJvdmlkZXIiOiJhdXRoMCIsImNvbm5lY3Rpb24iOiJVc2VybmFtZS1QYXNzd29yZC1BdXRoZW50aWNhdGlvbiIsImlzU29jaWFsIjpmYWxzZX1dLCJjcmVhdGVkX2F0IjoiMjAxNy0wNy0xOVQwOTozNDo1OC4yMjlaIiwiaXNzIjoiaHR0cHM6Ly9pbnZhbGlkLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1OTZmMjdjMmMzNzA5NjYxZTljZWEzN2QiLCJhdWQiOiJrYnl1RkRpZExMbTI4MExJd1ZGaWF6T3FqTzN0eThLSCIsImlhdCI6MTUyMTcyNjE0NiwiZXhwIjo5NTIxNzYyMTQ2fQ.-EJPGyU7tZ8v_iPNc3p86_F3HiDRheBgFGh48UvMF5U`,
-			tokenErr: true,
-
-			expectedError: errors.New("invalid 'iss' claim"),
 		},
 		{
 			description: "invalid token, user id in sub claim doesnt exist",

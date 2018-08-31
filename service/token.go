@@ -20,12 +20,11 @@ type Token struct {
 }
 
 // NewToken creates and configures an Token service
-func NewToken(log *zerolog.Logger, user UserRepository, iss, jws string) *Token {
+func NewToken(log *zerolog.Logger, user UserRepository, jws string) *Token {
 	return &Token{
 		log:  log,
 		user: user,
 		jws:  jws,
-		iss:  iss,
 	}
 }
 
@@ -49,7 +48,6 @@ func (t *Token) Login(userInfo *model.User) (string, error) {
 
 	claims := &jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
-		Issuer:    t.iss,
 		Subject:   actualUser.TokenUserID,
 		IssuedAt:  time.Now().Unix(),
 	}

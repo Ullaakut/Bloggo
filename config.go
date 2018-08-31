@@ -4,37 +4,52 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
+	"github.com/spf13/viper"
 )
 
 // Config represents the Bloggo configuration
 type Config struct {
-	LogLevel                string
-	GracefulShutdownTimeout time.Duration
-	ServerAddress           string
-	ServerPort              uint
+	LogLevel      string `json:"log_level"`
+	ServerAddress string `json:"server_address"`
+	ServerPort    uint   `json:"server_port"`
 
-	TrustedSource string
-	JWTSecret     string
+	MySQLURL           string        `json:"mysql_url"`
+	MySQLRetryInterval time.Duration `json:"mysql_retry_interval"`
+	MySQLRetryDuration time.Duration `json:"mysql_retry_duration"`
 
-	MySQLURL           string
-	MySQLRetryInterval time.Duration
-	MySQLRetryDuration time.Duration
+	jwtSecret string
 }
 
-// DefaultConfig generates a configuration structure with the default values
-func DefaultConfig() Config {
-	return Config{
-		LogLevel:                "DEBUG",
-		GracefulShutdownTimeout: 10 * time.Second,
-		ServerAddress:           "0.0.0.0",
-		ServerPort:              4242,
+// Set default values for configuration parameters
+func init() {
+	viper.SetDefault("log_level", "DEBUG")
+	viper.SetDefault("server_address", "0.0.0.0")
+	viper.SetDefault("server_port", 4242)
+	viper.SetDefault("mysql_url", "root:root@tcp(db:3306)/bloggo?charset=utf8&parseTime=True&loc=Local")
+	viper.SetDefault("mysql_retry_interval", "2s")
+	viper.SetDefault("mysql_retry_duration", "1m")
+}
 
-		TrustedSource: "src.bloggo.com",
+// GetConfig sets the default values for the configuration and gets it from the environment/command line
+func GetConfig() Config {
+	var config Config
 
-		MySQLURL:           "root:root@tcp(db:3306)/bloggo?charset=utf8&parseTime=True&loc=Local",
-		MySQLRetryInterval: 2 * time.Second,
-		MySQLRetryDuration: 1 * time.Minute,
-	}
+	// Override default with environment variables
+	viper.SetEnvPrefix("BLOGGO")
+	viper.AutomaticEnv()
+	viper.Unmarshal(&config)
+
+	config.jwtSecret = viper.GetString("jwt_secret")
+
+	config.LogLevel = viper.GetString("log_level")
+	config.ServerAddress = viper.GetString("server_address")
+	config.ServerPort = uint(viper.GetInt("server_port"))
+	config.MySQLURL = viper.GetString("mysql_url")
+
+	config.MySQLRetryInterval = viper.GetDuration("mysql_retry_interval")
+	config.MySQLRetryDuration = viper.GetDuration("mysql_retry_duration")
+
+	return config
 }
 
 // Print prints the current configuration
@@ -43,11 +58,8 @@ func (c Config) Print(log *zerolog.Logger) {
 		Str("LogLevel", c.LogLevel).
 		Str("ServerAddress", c.ServerAddress).
 		Uint("ServerPort", c.ServerPort).
-		Dur("GraciousShutdownTimeout", c.GracefulShutdownTimeout).
 		Str("MySQLURL", c.MySQLURL).
 		Dur("MySQLRetryInterval", c.MySQLRetryInterval).
 		Dur("MySQLRetryDuration", c.MySQLRetryDuration).
-		Str("TrustedSource", c.TrustedSource).
-		Str("JWTSecret", "**************").
 		Msg("Configuration")
 }

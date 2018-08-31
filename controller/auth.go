@@ -52,8 +52,6 @@ func (a *Auth) Authorize(next echo.HandlerFunc) echo.HandlerFunc {
 		// to force-set the author later
 		ctx.Set("userID", userID)
 
-		a.log.Debug().Str("user_id", userID).Msg("user authorized")
-
 		return next(ctx)
 	}
 }
