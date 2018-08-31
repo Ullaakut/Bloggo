@@ -23,12 +23,11 @@ type Access struct {
 }
 
 // NewAccess creates and configures an Access service
-func NewAccess(log *zerolog.Logger, userRepository UserRepository, expectedSource, jws string) *Access {
+func NewAccess(log *zerolog.Logger, userRepository UserRepository, jws string) *Access {
 	return &Access{
-		log:           log,
-		users:         userRepository,
-		trustedSource: expectedSource,
-		jws:           jws,
+		log:   log,
+		users: userRepository,
+		jws:   jws,
 	}
 }
 
@@ -53,11 +52,6 @@ func (a *Access) ValidateToken(IDToken string) (string, error) {
 	err = claims.Valid()
 	if err != nil {
 		return "", errors.Wrap(err, "invalid claims")
-	}
-
-	// Verifies the iss claim
-	if !claims.VerifyIssuer(a.trustedSource, true) {
-		return "", errors.New("invalid 'iss' claim")
 	}
 
 	// Verifies the sub claim

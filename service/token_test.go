@@ -14,17 +14,15 @@ import (
 
 func TestNewToken(t *testing.T) {
 	jws := "MySuperSecretSecret"
-	iss := "src.bloggo.com"
 
 	userRepositoryMock := &repo.UserRepositoryMock{}
 
 	logsBuff := &bytes.Buffer{}
 	log := logger.NewZeroLog(logsBuff)
 
-	a := NewToken(log, userRepositoryMock, iss, jws)
+	a := NewToken(log, userRepositoryMock, jws)
 
 	assert.Equal(t, jws, a.jws, "unexpected jws set")
-	assert.Equal(t, iss, a.iss, "unexpected iss set")
 	assert.Equal(t, log, a.log, "unexpected logger set")
 	assert.Equal(t, userRepositoryMock, a.user, "unexpected user repo set")
 }
@@ -113,7 +111,6 @@ func TestLogin(t *testing.T) {
 			a := &Token{
 				log:  log,
 				jws:  "x5fVmkmyMLAQJiJ8rvsGEAgetl9GS7j8",
-				iss:  "src.bloggo.com",
 				user: userRepositoryMock,
 			}
 

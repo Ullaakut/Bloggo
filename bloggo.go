@@ -25,12 +25,10 @@ func main() {
 	log := logger.NewZeroLog(os.Stderr)
 	log.Info().Msg("bloggo is barking up")
 
-	// TODO: Config override via config file, env, consul kv...
-	config := DefaultConfig()
-	config.JWTSecret = os.Getenv("BLOGGO_JWT_SECRET")
+	config := GetConfig()
 	config.Print(log)
 
-	if config.JWTSecret == "" {
+	if config.jwtSecret == "" {
 		log.Fatal().Msg("JWT secret not set. please set it in the environment for bloggo to work properly")
 		os.Exit(1)
 	}
@@ -69,8 +67,8 @@ func main() {
 	blogPostRepository := repo.NewBlogPostRepositoryMySQL(log, db)
 	userRepository := repo.NewUserRepositoryMySQL(log, db)
 
-	accessService := service.NewAccess(log, userRepository, config.TrustedSource, config.JWTSecret)
-	tokenService := service.NewToken(log, userRepository, config.TrustedSource, config.JWTSecret)
+	accessService := service.NewAccess(log, userRepository, config.jwtSecret)
+	tokenService := service.NewToken(log, userRepository, config.jwtSecret)
 
 	blogController := controller.NewBlog(log, blogPostRepository)
 	userController := controller.NewUser(log, userRepository, tokenService)
@@ -114,7 +112,7 @@ func main() {
 
 	log.Info().Msg("bloggo is shutting down")
 
-	server.Stop(config.GracefulShutdownTimeout)
+	server.Stop(15 * time.Second)
 
 	log.Info().Msg("bloggo shutdown complete")
 
