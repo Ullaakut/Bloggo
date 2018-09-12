@@ -67,11 +67,13 @@ func main() {
 	blogPostRepository := repo.NewBlogPostRepositoryMySQL(log, db)
 	userRepository := repo.NewUserRepositoryMySQL(log, db)
 
+	hasher := service.NewBcryptHasher(config.BcryptRuns)
+
 	accessService := service.NewAccess(log, userRepository, config.jwtSecret)
-	tokenService := service.NewToken(log, userRepository, config.jwtSecret)
+	tokenService := service.NewToken(log, userRepository, hasher, config.jwtSecret)
 
 	blogController := controller.NewBlog(log, blogPostRepository)
-	userController := controller.NewUser(log, userRepository, tokenService)
+	userController := controller.NewUser(log, userRepository, tokenService, hasher)
 	authController := controller.NewAuth(log, accessService)
 
 	// Bind routes to controller methods

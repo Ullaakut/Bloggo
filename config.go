@@ -17,6 +17,8 @@ type Config struct {
 	MySQLRetryInterval time.Duration `json:"mysql_retry_interval"`
 	MySQLRetryDuration time.Duration `json:"mysql_retry_duration"`
 
+	BcryptRuns int `json:"bcrypt_runs"`
+
 	jwtSecret string
 }
 
@@ -28,6 +30,7 @@ func init() {
 	viper.SetDefault("mysql_url", "root:root@tcp(db:3306)/bloggo?charset=utf8&parseTime=True&loc=Local")
 	viper.SetDefault("mysql_retry_interval", "2s")
 	viper.SetDefault("mysql_retry_duration", "1m")
+	viper.SetDefault("bcrypt_runs", 11)
 }
 
 // GetConfig sets the default values for the configuration and gets it from the environment/command line
@@ -49,17 +52,20 @@ func GetConfig() Config {
 	config.MySQLRetryInterval = viper.GetDuration("mysql_retry_interval")
 	config.MySQLRetryDuration = viper.GetDuration("mysql_retry_duration")
 
+	config.BcryptRuns = viper.GetInt("bcrypt_runs")
+
 	return config
 }
 
 // Print prints the current configuration
 func (c Config) Print(log *zerolog.Logger) {
 	log.Debug().
-		Str("LogLevel", c.LogLevel).
-		Str("ServerAddress", c.ServerAddress).
-		Uint("ServerPort", c.ServerPort).
-		Str("MySQLURL", c.MySQLURL).
-		Dur("MySQLRetryInterval", c.MySQLRetryInterval).
-		Dur("MySQLRetryDuration", c.MySQLRetryDuration).
-		Msg("Configuration")
+		Str("log_level", c.LogLevel).
+		Str("server_address", c.ServerAddress).
+		Uint("server_port", c.ServerPort).
+		Str("mysql_url", c.MySQLURL).
+		Dur("mysql_retry_interval", c.MySQLRetryInterval).
+		Dur("mysql_retry_duration", c.MySQLRetryDuration).
+		Int("bcrypt_runs", c.BcryptRuns).
+		Msg("configuration")
 }

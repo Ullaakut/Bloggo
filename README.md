@@ -119,7 +119,7 @@ Examples: `192.168.0.5`, `localhost`, `10.15.17.160`...
 
 Sets the port used by the API. Default value is `4242`.
 
-Can be any value between 1 and 65535.
+Can be any value between `1` and `65535`.
 
 ### `BLOGGO_MYSQL_URL`
 
@@ -142,6 +142,12 @@ Examples: `1s`, `10m`, `24h`, `7d`, ...
 Sets the interval between each reconnection attempt to MySQL within the retry duration. Default value is `2s` (two seconds).
 
 Examples: `1s`, `10m`, `24h`, `7d`, ...
+
+### `BLOGGO_BCRYPT_RUNS`
+
+Sets the number of iterations of hashing that the bcrypt algorithm will run when hashing passwords. Default value is `11`.
+
+Can be any value between `4` and `31`.
 
 ## License
 

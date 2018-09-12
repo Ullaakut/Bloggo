@@ -24,19 +24,26 @@ type TokenGenerator interface {
 	GenerateID() string
 }
 
+// Hasher represents a service that hashes passwords
+type Hasher interface {
+	Hash(password string) (string, error)
+}
+
 // User is a controller that is in charge of handling the CRUD of users
 type User struct {
 	users  UserRepository
 	tokens TokenGenerator
+	hasher Hasher
 
 	log *zerolog.Logger
 }
 
 // NewUser creates a User controller with the given user repository
-func NewUser(log *zerolog.Logger, userRepository UserRepository, tokens TokenGenerator) *User {
+func NewUser(log *zerolog.Logger, userRepository UserRepository, tokens TokenGenerator, hasher Hasher) *User {
 	return &User{
 		users:  userRepository,
 		tokens: tokens,
+		hasher: hasher,
 
 		log: log,
 	}
@@ -60,6 +67,13 @@ func (u *User) Register(ctx echo.Context) error {
 
 	user.TokenUserID = u.tokens.GenerateID()
 
+	plainTextPwd := user.Password
+
+	user.Password, err = u.hasher.Hash(user.Password)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err)
+	}
+
 	// Ensure we don't have more than 1 admin user
 	if user.IsAdmin && u.users.AdminExists() {
 		return echo.NewHTTPError(http.StatusForbidden, errors.New("admin account has already been created"))
@@ -69,6 +83,8 @@ func (u *User) Register(ctx echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
+
+	createdUser.Password = plainTextPwd
 
 	token, err := u.tokens.Login(createdUser)
 	if err != nil {
