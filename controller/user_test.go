@@ -32,15 +32,27 @@ func (m *TokenGeneratorMock) GenerateID() string {
 	return args.String(0)
 }
 
+type HasherMock struct {
+	mock.Mock
+}
+
+func (m *HasherMock) Hash(password string) (string, error) {
+	args := m.Called(password)
+	return args.String(0), args.Error(1)
+}
+
 func TestNewUser(t *testing.T) {
 	userRepositoryMock := &repo.UserRepositoryMock{}
+	hasherMock := &HasherMock{}
 	tokenMock := &TokenGeneratorMock{}
 	logsBuff := &bytes.Buffer{}
 	log := logger.NewZeroLog(logsBuff)
 
-	b := NewUser(log, userRepositoryMock, tokenMock)
+	b := NewUser(log, userRepositoryMock, tokenMock, hasherMock)
 
 	assert.Equal(t, userRepositoryMock, b.users, "unexpected user repository set")
+	assert.Equal(t, tokenMock, b.tokens, "unexpected token service set")
+	assert.Equal(t, hasherMock, b.hasher, "unexpected hashing service set")
 	assert.Equal(t, log, b.log, "unexpected logger set")
 }
 
@@ -49,11 +61,14 @@ func TestRegister(t *testing.T) {
 		description string
 
 		requestBody    []byte
-		repositoryErr  error
 		user           *model.User
 		adminExists    bool
-		loginErr       error
 		generatedToken string
+		generatedHash  string
+
+		repositoryErr error
+		loginErr      error
+		hashErr       error
 
 		expectedHTTPCode int
 		expectedHTTPBody []byte
@@ -72,6 +87,7 @@ func TestRegister(t *testing.T) {
 				Password:    "refrigerator2000",
 				TokenUserID: "test",
 			},
+			generatedHash:  "fakeHash",
 			generatedToken: "x.y.z",
 
 			expectedHTTPCode: 201,
@@ -93,6 +109,7 @@ func TestRegister(t *testing.T) {
 				TokenUserID: "test",
 				IsAdmin:     true,
 			},
+			generatedHash:  "fakeHash",
 			generatedToken: "x.y.z",
 
 			expectedHTTPCode: 201,
@@ -108,6 +125,7 @@ func TestRegister(t *testing.T) {
 					"is_admin": true
 				}
 			`),
+			generatedHash:  "fakeHash",
 			generatedToken: "x.y.z",
 			adminExists:    true,
 
@@ -143,6 +161,24 @@ func TestRegister(t *testing.T) {
 			expectedHTTPBody: []byte(`Key: 'User.Password' Error:Field validation for 'Password' failed on the 'min' tag`),
 		},
 		{
+			description: "hashing error",
+
+			requestBody: []byte(`
+				{
+					"email": "bob@vance-refrigeration.com",
+					"password": "123456789012345",
+					"is_admin": true
+				}
+			`),
+
+			generatedToken: "x.y.z",
+
+			hashErr: errors.New("could not hash"),
+
+			expectedHTTPCode: 500,
+			expectedHTTPBody: []byte(`could not hash`),
+		},
+		{
 			description: "not json",
 
 			requestBody: []byte(`potato`),
@@ -165,6 +201,7 @@ func TestRegister(t *testing.T) {
 				TokenUserID: "test",
 			},
 			repositoryErr:  errors.New("dummy error"),
+			generatedHash:  "fakeHash",
 			generatedToken: "x.y.z",
 
 			expectedHTTPCode: 500,
@@ -185,6 +222,7 @@ func TestRegister(t *testing.T) {
 				TokenUserID: "test",
 			},
 			loginErr:       errors.New("dummy error"),
+			generatedHash:  "fakeHash",
 			generatedToken: "x.y.z",
 
 			expectedHTTPCode: 500,
@@ -209,14 +247,14 @@ func TestRegister(t *testing.T) {
 			log := logger.NewZeroLog(logsBuff)
 
 			userRepositoryMock := &repo.UserRepositoryMock{}
-			if (test.generatedToken != "" || test.repositoryErr != nil) && !test.adminExists {
+			if (test.generatedHash != "" || test.repositoryErr != nil) && !test.adminExists {
 				userRepositoryMock.
 					On("Store", mock.AnythingOfType("*model.User")).
 					Return(test.user, test.repositoryErr).
 					Once()
 			}
 
-			if test.generatedToken != "" && strings.Contains(string(test.requestBody), "is_admin") {
+			if strings.Contains(string(test.requestBody), "is_admin") && test.generatedHash != "" {
 				userRepositoryMock.On("AdminExists").Return(test.adminExists).Once()
 			}
 
@@ -224,16 +262,25 @@ func TestRegister(t *testing.T) {
 			if test.generatedToken != "" {
 				tokenMock.On("GenerateID").Return("test").Once()
 			}
-			if test.repositoryErr == nil && test.generatedToken != "" && !test.adminExists {
+			if test.repositoryErr == nil && !test.adminExists && test.generatedHash != "" {
 				tokenMock.
 					On("Login", mock.AnythingOfType("*model.User")).
 					Return("x.y.z", test.loginErr).
 					Once()
 			}
 
+			hasherMock := &HasherMock{}
+			if test.generatedToken != "" {
+				hasherMock.
+					On("Hash", mock.AnythingOfType("string")).
+					Return(test.generatedHash, test.hashErr).
+					Once()
+			}
+
 			userController := &User{
 				users:  userRepositoryMock,
 				tokens: tokenMock,
+				hasher: hasherMock,
 
 				log: log,
 			}
@@ -254,6 +301,7 @@ func TestRegister(t *testing.T) {
 
 			userRepositoryMock.AssertExpectations(t)
 			tokenMock.AssertExpectations(t)
+			hasherMock.AssertExpectations(t)
 		})
 	}
 }
@@ -359,6 +407,12 @@ func TestLogin(t *testing.T) {
 					Return("x.y.z", test.loginErr).
 					Once()
 			}
+
+			hasherMock := &HasherMock{}
+			hasherMock.
+				On("Hash", mock.AnythingOfType("string")).
+				Return("ok", nil).
+				Once()
 
 			userController := &User{
 				tokens: tokenMock,

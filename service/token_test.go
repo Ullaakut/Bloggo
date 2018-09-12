@@ -10,21 +10,33 @@ import (
 	"github.com/Ullaakut/Bloggo/repo"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
+
+type HashComparerMock struct {
+	mock.Mock
+}
+
+func (m *HashComparerMock) Compare(hash, password string) error {
+	args := m.Called(hash, password)
+	return args.Error(0)
+}
 
 func TestNewToken(t *testing.T) {
 	jws := "MySuperSecretSecret"
 
 	userRepositoryMock := &repo.UserRepositoryMock{}
+	hasherMock := &HashComparerMock{}
 
 	logsBuff := &bytes.Buffer{}
 	log := logger.NewZeroLog(logsBuff)
 
-	a := NewToken(log, userRepositoryMock, jws)
+	a := NewToken(log, userRepositoryMock, hasherMock, jws)
 
 	assert.Equal(t, jws, a.jws, "unexpected jws set")
 	assert.Equal(t, log, a.log, "unexpected logger set")
 	assert.Equal(t, userRepositoryMock, a.user, "unexpected user repo set")
+	assert.Equal(t, hasherMock, a.hash, "unexpected hasher set")
 }
 
 func TestGenerateID(t *testing.T) {
@@ -43,9 +55,10 @@ func TestLogin(t *testing.T) {
 	tests := []struct {
 		description string
 
-		userInfo   *model.User
-		actualUser *model.User
-		repoError  error
+		userInfo    *model.User
+		actualUser  *model.User
+		invalidHash error
+		repoError   error
 
 		expectedFirstSegment string
 		expectedThirdSegment string
@@ -60,7 +73,7 @@ func TestLogin(t *testing.T) {
 			},
 			actualUser: &model.User{
 				Email:       "bob@vance-refrigeration.com",
-				Password:    "refrigerator2000",
+				Password:    "$2y$11$MbHIFLRyIR4lTcSTsm3sDOZ896vyr0.ijtDwCFSzvk9dJNXuR40AW",
 				TokenUserID: "test",
 			},
 
@@ -77,9 +90,10 @@ func TestLogin(t *testing.T) {
 			},
 			actualUser: &model.User{
 				Email:       "bob@vance-refrigeration.com",
-				Password:    "refrigerator2000",
+				Password:    "$2y$11$MbHIFLRyIR4lTcSTsm3sDOZ896vyr0.ijtDwCFSzvk9dJNXuR40AW",
 				TokenUserID: "test",
 			},
+			invalidHash: errors.New("dummy error"),
 
 			expectedError: errors.New("invalid password"),
 		},
@@ -108,10 +122,19 @@ func TestLogin(t *testing.T) {
 				Return(test.actualUser, test.repoError).
 				Once()
 
+			hasherMock := &HashComparerMock{}
+			if test.repoError == nil {
+				hasherMock.
+					On("Compare", test.actualUser.Password, test.userInfo.Password).
+					Return(test.invalidHash).
+					Once()
+			}
+
 			a := &Token{
 				log:  log,
 				jws:  "x5fVmkmyMLAQJiJ8rvsGEAgetl9GS7j8",
 				user: userRepositoryMock,
+				hash: hasherMock,
 			}
 
 			token, err := a.Login(test.userInfo)
@@ -124,6 +147,9 @@ func TestLogin(t *testing.T) {
 				assert.Equal(t, test.expectedFirstSegment, segments[0], "unexpected token in test case %d", idx)
 				assert.Equal(t, nil, err, "unexpected error in test case %d", idx)
 			}
+
+			userRepositoryMock.AssertExpectations(t)
+			hasherMock.AssertExpectations(t)
 		})
 	}
 }

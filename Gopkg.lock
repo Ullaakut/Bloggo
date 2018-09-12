@@ -258,11 +258,13 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:507fa82feeba6c3651d3cfb7593a498144ae6455e1b00dde2e0c344cdfdc9c4d"
+  digest = "1:e1aae46de34bee07d3c3733f9b7ccb45959c8ee909bbff69fbd2169ec109c1bf"
   name = "golang.org/x/crypto"
   packages = [
     "acme",
     "acme/autocert",
+    "bcrypt",
+    "blowfish",
   ]
   pruneopts = "UT"
   revision = "88942b9c40a4c9d203b82b3731787b672d6e809b"
@@ -336,6 +338,7 @@
     "github.com/spf13/viper",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/mock",
+    "golang.org/x/crypto/bcrypt",
     "gopkg.in/go-playground/validator.v9",
     "gopkg.in/tylerb/graceful.v1",
   ]
