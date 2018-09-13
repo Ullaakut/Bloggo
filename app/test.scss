@@ -1,0 +1,52 @@
+body {
+    margin: 0;
+}
+
+.wrapper {
+    display: grid;
+    background-color: #fff;
+    color: #444;
+    height: 100%;
+    grid-template-rows: 5fr 5fr 15fr 70fr 5fr;
+    grid-template-areas: "me" "he" "pr" "po" "f";
+}
+
+.menu {
+    grid-area: me;
+    background-color: rgb(197, 48, 48);
+    color: #fff;
+    font-size: 150%;
+}
+
+.header {
+    grid-area: he;
+    background-color: #444;
+    color: #fff;
+    font-size: 150%;
+}
+
+.profile {
+    grid-area: pr;
+    background-color: rgb(51, 112, 27);
+    color: #fff;
+    font-size: 150%;
+}
+
+.posts {
+    grid-area: po;
+    background-color: rgb(70, 230, 241);
+    color: #fff;
+    font-size: 150%;
+}
+
+.footer {
+    grid-area: f;
+    background-color: rgb(126, 34, 126);
+    color: #fff;
+    font-size: 150%;
+}
+
+@media (min-width: 768px) {
+    display: grid;
+    grid-template-areas: ". me" "he po" "pr po" ". po" ". f";
+}

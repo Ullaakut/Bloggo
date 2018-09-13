@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+}
+
+.wrapper {
+  display: -ms-grid;
+  display: grid;
+  background-color: #fff;
+  color: #444;
+  height: 100%;
+  -ms-grid-rows: 5fr 5fr 15fr 70fr 5fr;
+      grid-template-rows: 5fr 5fr 15fr 70fr 5fr;
+      grid-template-areas: "me" "he" "pr" "po" "f";
+}
+
+.menu {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: me;
+  background-color: #c53030;
+  color: #fff;
+  font-size: 150%;
+}
+
+.header {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: he;
+  background-color: #444;
+  color: #fff;
+  font-size: 150%;
+}
+
+.profile {
+  -ms-grid-row: 3;
+  -ms-grid-column: 1;
+  grid-area: pr;
+  background-color: #33701b;
+  color: #fff;
+  font-size: 150%;
+}
+
+.posts {
+  -ms-grid-row: 4;
+  -ms-grid-column: 1;
+  grid-area: po;
+  background-color: #46e6f1;
+  color: #fff;
+  font-size: 150%;
+}
+
+.footer {
+  -ms-grid-row: 5;
+  -ms-grid-column: 1;
+  grid-area: f;
+  background-color: #7e227e;
+  color: #fff;
+  font-size: 150%;
+}
+
+@media (min-width: 768px) {
+  display: -ms-grid;
+  display: grid;
+      grid-template-areas: ". me" "he po" "pr po" ". po" ". f";
+}
+/*# sourceMappingURL=test.css.map */
