@@ -23,6 +23,9 @@ The idea is to use a fast and simple language for the backend, Go, and a simple 
     <a href='https://coveralls.io/github/Ullaakut/Bloggo?branch=add-ci'>
         <img src='https://coveralls.io/repos/github/Ullaakut/Bloggo/badge.svg?branch=add-ci' alt='Coverage Status' />
     </a>
+    <a href="https://godoc.org/github.com/Ullaakut/Bloggo">
+        <img src="https://godoc.org/github.com/Ullaakut/Bloggo?status.svg" alt="GoDoc">
+    </a>
 </p>
 
 ## Table of content
