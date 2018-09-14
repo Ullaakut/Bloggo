@@ -4,7 +4,7 @@ body {
     width: 100%;
 }
 
-.wrapper {
+.grid {
     display: block;
     color: #fff;
     font-size: 150%;
@@ -39,7 +39,7 @@ body {
 }
 
 @supports (display: grid) {
-    .wrapper {
+    .grid {
         display: grid;
         grid-template-rows: 5fr 5fr 15fr 70fr 5fr;
         grid-template-areas: "me" "he" "pr" "po" "f";
@@ -65,7 +65,7 @@ body {
         height: auto;
     }
     @media only screen and (min-width: 768px) {
-        .wrapper {
+        .grid {
             display: grid;
             grid-template-rows: 5fr 5fr 15fr 70fr 5fr;
             grid-template-areas: ". me" "he po" "pr po" ". po" "f po";
