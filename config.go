@@ -5,21 +5,22 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/spf13/viper"
+	v "gopkg.in/go-playground/validator.v9"
 )
 
 // Config represents the Bloggo configuration
 type Config struct {
-	LogLevel      string `json:"log_level"`
-	ServerAddress string `json:"server_address"`
-	ServerPort    uint   `json:"server_port"`
+	LogLevel      string `json:"log_level" validate:"required,eq=DEBUG|eq=INFO|eq=WARNING|eq=ERROR|eq=FATAL"`
+	ServerAddress string `json:"server_address" validate:"required"`
+	ServerPort    uint   `json:"server_port" validate:"required,min=1,max=65535"`
 
 	MySQLURL           string        `json:"mysql_url"`
 	MySQLRetryInterval time.Duration `json:"mysql_retry_interval"`
 	MySQLRetryDuration time.Duration `json:"mysql_retry_duration"`
 
-	BcryptRuns int `json:"bcrypt_runs"`
+	BcryptRuns int `json:"bcrypt_runs" validate:"min=4,max=31"`
 
-	jwtSecret string
+	JWTSecret string `validate:"required,min=1"`
 }
 
 // Set default values for configuration parameters
@@ -34,7 +35,7 @@ func init() {
 }
 
 // GetConfig sets the default values for the configuration and gets it from the environment/command line
-func GetConfig() Config {
+func GetConfig() (Config, error) {
 	var config Config
 
 	// Override default with environment variables
@@ -42,7 +43,7 @@ func GetConfig() Config {
 	viper.AutomaticEnv()
 	viper.Unmarshal(&config)
 
-	config.jwtSecret = viper.GetString("jwt_secret")
+	config.JWTSecret = viper.GetString("jwt_secret")
 
 	config.LogLevel = viper.GetString("log_level")
 	config.ServerAddress = viper.GetString("server_address")
@@ -54,7 +55,13 @@ func GetConfig() Config {
 
 	config.BcryptRuns = viper.GetInt("bcrypt_runs")
 
-	return config
+	validate := v.New()
+	err := validate.Struct(config)
+	if err != nil {
+		return config, err
+	}
+
+	return config, nil
 }
 
 // Print prints the current configuration
