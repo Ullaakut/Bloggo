@@ -1,0 +1,74 @@
+body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.wrapper {
+    display: block;
+    color: #fff;
+    font-size: 150%;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.menu {
+    background-color: rgb(197, 48, 48);
+    height: 5%;
+}
+
+.header {
+    background-color: #444;
+    height: 5%;
+}
+
+.profile {
+    background-color: rgb(51, 112, 27);
+    height: 15%;
+}
+
+.posts {
+    background-color: rgb(70, 230, 241);
+    height: 70%;
+}
+
+.footer {
+    background-color: rgb(126, 34, 126);
+    height: 5%;
+}
+
+@supports (display: grid) {
+    .wrapper {
+        display: grid;
+        grid-template-rows: 5fr 5fr 15fr 70fr 5fr;
+        grid-template-areas: "me" "he" "pr" "po" "f";
+    }
+    .menu {
+        grid-area: me;
+        height: auto;
+    }
+    .header {
+        grid-area: he;
+        height: auto;
+    }
+    .profile {
+        grid-area: pr;
+        height: auto;
+    }
+    .posts {
+        grid-area: po;
+        height: auto;
+    }
+    .footer {
+        grid-area: f;
+        height: auto;
+    }
+    @media only screen and (min-width: 768px) {
+        .wrapper {
+            display: grid;
+            grid-template-rows: 5fr 5fr 15fr 70fr 5fr;
+            grid-template-areas: ". me" "he po" "pr po" ". po" "f po";
+        }
+    }
+}
