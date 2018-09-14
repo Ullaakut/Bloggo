@@ -16,8 +16,8 @@ type HashComparer interface {
 
 // HasherComparer describes something that can hash passwords and compare them with clear passwords
 type HasherComparer interface {
-	Hash(password string) (string, error)
-	Compare(hash, password string) error
+	Hasher
+	HashComparer
 }
 
 // BcryptHasher implements the Hasher and HashComparer interfaces and uses Provos and
