@@ -13,6 +13,15 @@ services:
     depends_on:
       - db
 
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - bloggo
+
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
