@@ -25,13 +25,12 @@ func main() {
 	log := logger.NewZeroLog(os.Stderr)
 	log.Info().Msg("bloggo is barking up")
 
-	config := GetConfig()
-	config.Print(log)
-
-	if config.jwtSecret == "" {
-		log.Fatal().Msg("JWT secret not set. please set it in the environment for bloggo to work properly")
+	config, err := GetConfig()
+	if err != nil {
+		log.Fatal().Err(err).Msg("invalid configuration")
 		os.Exit(1)
 	}
+	config.Print(log)
 
 	zerolog.SetGlobalLevel(logger.ParseLevel(config.LogLevel))
 
@@ -50,7 +49,6 @@ func main() {
 	// Initialize the database
 	// Retry until it is successful or the retryDuration is over
 	var db *gorm.DB
-	var err error
 	startTime := time.Now()
 	try(log, config.MySQLRetryInterval, func() error {
 		db, err = gorm.Open("mysql", config.MySQLURL)
@@ -69,8 +67,8 @@ func main() {
 
 	hasher := service.NewBcryptHasher(config.BcryptRuns)
 
-	accessService := service.NewAccess(log, userRepository, config.jwtSecret)
-	tokenService := service.NewToken(log, userRepository, hasher, config.jwtSecret)
+	accessService := service.NewAccess(log, userRepository, config.JWTSecret)
+	tokenService := service.NewToken(log, userRepository, hasher, config.JWTSecret)
 
 	blogController := controller.NewBlog(log, blogPostRepository)
 	userController := controller.NewUser(log, userRepository, tokenService, hasher)
