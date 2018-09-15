@@ -68,12 +68,7 @@ To set the configuration values, you need to set environment variables. See the 
 
 ## API Blueprints
 
-* `docker-compose up blueprints`
-* Visit `0.0.0.0:3000` in your favorite browser
-
-<p align="center">
-    <img width="500"  src="images/blueprints.png">
-</p>
+See [the README.md file for the blueprints](blueprints/README.md).
 
 ## Postman collection
 
