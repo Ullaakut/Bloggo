@@ -22,10 +22,14 @@ func (m *BlogPostRepositoryMock) Retrieve(id uint) (*model.BlogPost, error) {
 	return args.Get(0).(*model.BlogPost), args.Error(1)
 }
 
-// RetrieveAll mock
-func (m *BlogPostRepositoryMock) RetrieveAll() ([]*model.BlogPost, error) {
-	args := m.Called()
-	return args.Get(0).([]*model.BlogPost), args.Error(1)
+// Find mock
+func (m *BlogPostRepositoryMock) Find(contains *string, limit *uint) ([]*model.BlogPost, error) {
+	args := m.Called(contains, limit)
+
+	if args.Get(0).([]*model.BlogPost) != nil {
+		return args.Get(0).([]*model.BlogPost), args.Error(1)
+	}
+	return nil, args.Error(1)
 }
 
 // Update mock

@@ -6,13 +6,9 @@ WORKDIR /go/src/github.com/Ullaakut/Bloggo
 
 RUN apk update && \
     apk upgrade && \
-    apk add nmap nmap-nselibs nmap-scripts \
-    curl curl-dev \
-    gcc \
-    libc-dev \
-    git \
-    pkgconfig
-ENV DEP_VERSION="0.4.1"
+    apk add curl git
+
+ENV DEP_VERSION="0.5.0"
 RUN curl -L -s https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 -o $GOPATH/bin/dep
 RUN chmod +x $GOPATH/bin/dep
 RUN dep ensure

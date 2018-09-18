@@ -18,7 +18,7 @@ import (
 type BlogRepository interface {
 	Store(post *model.BlogPost) (*model.BlogPost, error)
 	Retrieve(id uint) (*model.BlogPost, error)
-	RetrieveAll() ([]*model.BlogPost, error)
+	Find(contains *string, limit *uint) ([]*model.BlogPost, error)
 	Update(post *model.BlogPost) error
 	Delete(id uint) error
 }
@@ -97,9 +97,31 @@ func (b *Blog) Read(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, blogPost)
 }
 
-// ReadAll retrieves all blog posts
-func (b *Blog) ReadAll(ctx echo.Context) error {
-	blogPosts, err := b.posts.RetrieveAll()
+// Find retrieves all blog posts filtered by some criteria
+func (b *Blog) Find(ctx echo.Context) error {
+	// parse the limit from the URL parameter
+	var limit *uint
+	if ctx.Param("limit") == "" {
+		limit = nil
+	} else {
+		limit64, err := strconv.ParseUint(ctx.Param("limit"), 10, 64)
+		if err != nil && len(ctx.Param("limit")) > 0 {
+			err = errors.Wrap(err, "could not parse limit for blog post search")
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		}
+
+		*limit = uint(limit64)
+	}
+
+	// parse the searched string from the URL parameter
+	var contains *string
+	if ctx.Param("contains") == "" {
+		contains = nil
+	} else {
+		*contains = ctx.Param("contains")
+	}
+
+	blogPosts, err := b.posts.Find(contains, limit)
 	if err != nil {
 		err = errors.Wrap(err, "could not read blog posts")
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())

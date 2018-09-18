@@ -276,7 +276,7 @@ func TestRead(t *testing.T) {
 	}
 }
 
-func TestReadAll(t *testing.T) {
+func TestFind(t *testing.T) {
 	tests := []struct {
 		description string
 
@@ -350,7 +350,7 @@ func TestReadAll(t *testing.T) {
 				log: log,
 			}
 
-			err = blogController.ReadAll(ctx)
+			err = blogController.Find(ctx)
 
 			if err == nil {
 				assert.Equal(t, test.expectedHTTPCode, w.Code, "wrong response status")
