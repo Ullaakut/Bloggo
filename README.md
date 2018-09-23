@@ -35,8 +35,6 @@ The idea is to use a fast and simple language for the backend, Go, and a simple 
 * [API Blueprints](#api-blueprints)
 * [Postman collection](#postman-collection)
 * [Testing](#testing)
-* [Possible future improvements](#possible-future-improvements)
-* [Notes & technical choices](#notes-and-technical-choices)
 * [Environment configuration](#environment)
 * [License](#license)
 
