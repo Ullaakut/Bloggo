@@ -6,8 +6,11 @@ body {
 
 .grid {
     display: block;
+}
+
+#main {
     color: #fff;
-    font-size: 150%;
+    font-size: 100%;
     height: 100%;
     width: 100%;
     margin: 0;
@@ -41,34 +44,63 @@ body {
 @supports (display: grid) {
     .grid {
         display: grid;
-        grid-template-rows: 5fr 5fr 15fr 70fr 5fr;
-        grid-template-areas: "me" "he" "pr" "po" "f";
+    }
+    .grid>div {
+        height:auto;
+    }
+    body>.grid {
+        grid-template-rows: 1fr 1fr 3fr 1fr;
+        grid-template-columns: 1fr 3fr;
+        grid-template-areas: ". me" "he po" "pr po" "f po";
     }
     .menu {
         grid-area: me;
-        height: auto;
     }
     .header {
         grid-area: he;
-        height: auto;
     }
     .profile {
         grid-area: pr;
-        height: auto;
+    }
+    .profile .grid { 
+        display: grid;
+        grid-template-rows: 5fr 10fr 10fr 40fr;
+        grid-template-columns: 3fr 2fr;
+        grid-template-areas: "na pi" "ti pi" "li pi" "bio bio";
+    }
+    .name {
+        grid-area: na;
+    }
+    .title {
+        grid-area: ti;
+    }
+    .links {
+        grid-area: li;
+    }
+    .picture {
+        grid-area: pi;
+    }
+    .bio {
+        grid-area: bio;
     }
     .posts {
         grid-area: po;
-        height: auto;
     }
     .footer {
         grid-area: f;
-        height: auto;
     }
-    @media only screen and (min-width: 768px) {
-        .grid {
+    @media only screen and (max-width: 768px) {
+        body>.grid {
             display: grid;
-            grid-template-rows: 5fr 5fr 15fr 70fr 5fr;
-            grid-template-areas: ". me" "he po" "pr po" ". po" "f po";
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr;
+            grid-template-areas: "me" "he" "pr" "po" "f";
+        }
+        .profile .grid {
+            display: grid;
+            grid-template-rows: 5fr 5fr 5fr 20fr;
+            grid-template-columns: 3fr 2fr;
+            grid-template-areas: "na pi" "ti pi" "li pi" "bio bio";
         }
     }
 }
