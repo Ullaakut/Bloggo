@@ -6,7 +6,7 @@ COPY grid.scss .
 
 RUN apk update && \
     apk upgrade && \
-    apk add nodejs
+    apk add nodejs npm
 RUN npm install -g sass
 RUN sass grid.scss /usr/share/nginx/html/grid.css
 
