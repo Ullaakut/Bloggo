@@ -2,6 +2,7 @@ body {
     margin: 0;
     height: 100%;
     width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .grid {
@@ -31,6 +32,39 @@ body {
     height: 15%;
 }
 
+#name {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+#title {
+    margin: 5px;
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#links {
+    margin-left: 10px;
+}
+
+#picture {
+    margin: 15px;
+}
+
+#picture {
+    height: 100px;
+    width: 100px;
+    background-color: #fff;
+    border-radius: 100%;
+}
+
+#bio {
+    margin: 10px;
+}
+
 .posts {
     background-color: rgb(70, 230, 241);
     height: 70%;
@@ -50,7 +84,7 @@ body {
     }
     body>.grid {
         grid-template-rows: 1fr 1fr 3fr 1fr;
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 2fr 3fr;
         grid-template-areas: ". me" "he po" "pr po" "f po";
     }
     .menu {
@@ -64,35 +98,42 @@ body {
     }
     .profile .grid { 
         display: grid;
-        grid-template-rows: 5fr 10fr 10fr 40fr;
+        grid-template-rows: 15% 10% 8% 67%;
         grid-template-columns: 3fr 2fr;
         grid-template-areas: "na pi" "ti pi" "li pi" "bio bio";
     }
-    .name {
+    #name {
         grid-area: na;
     }
-    .title {
+ 
+    #title {
         grid-area: ti;
     }
-    .links {
+
+    #links {
         grid-area: li;
     }
-    .picture {
+
+    #picture {
         grid-area: pi;
     }
-    .bio {
+
+    #bio {
         grid-area: bio;
     }
+
     .posts {
         grid-area: po;
     }
+
     .footer {
         grid-area: f;
     }
+
     @media only screen and (max-width: 768px) {
         body>.grid {
             display: grid;
-            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 3fr 5fr 1fr;
             grid-template-columns: 1fr;
             grid-template-areas: "me" "he" "pr" "po" "f";
         }
