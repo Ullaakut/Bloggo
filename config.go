@@ -41,7 +41,10 @@ func GetConfig() (Config, error) {
 	// Override default with environment variables
 	viper.SetEnvPrefix("BLOGGO")
 	viper.AutomaticEnv()
-	viper.Unmarshal(&config)
+	err := viper.Unmarshal(&config)
+	if err != nil {
+		return config, err
+	}
 
 	config.JWTSecret = viper.GetString("jwt_secret")
 
@@ -56,7 +59,7 @@ func GetConfig() (Config, error) {
 	config.BcryptRuns = viper.GetInt("bcrypt_runs")
 
 	validate := v.New()
-	err := validate.Struct(config)
+	err = validate.Struct(config)
 	if err != nil {
 		return config, err
 	}

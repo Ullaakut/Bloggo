@@ -14,7 +14,6 @@ import (
 // Token is a service that generates JWT tokens
 type Token struct {
 	jws string
-	iss string
 
 	user UserRepository
 	hash HashComparer
