@@ -28,8 +28,7 @@ func TestRegister(t *testing.T) {
 	tests := []struct {
 		description string
 
-		body    []byte
-		isAdmin bool
+		body []byte
 
 		expectedCode  int
 		expectedError error
@@ -110,8 +109,7 @@ func TestLogin(t *testing.T) {
 	tests := []struct {
 		description string
 
-		body    []byte
-		isAdmin bool
+		body []byte
 
 		adminToken    bool
 		nonAdminToken bool

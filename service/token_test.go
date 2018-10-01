@@ -60,8 +60,8 @@ func TestLogin(t *testing.T) {
 		invalidHash error
 		repoError   error
 
+		// Can't verify the second and third segments without faking the time.Now() call
 		expectedFirstSegment string
-		expectedThirdSegment string
 		expectedError        error
 	}{
 		{
@@ -78,8 +78,7 @@ func TestLogin(t *testing.T) {
 			},
 
 			expectedFirstSegment: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-			// Can't verify the second and third segments without faking the time.Now() call
-			expectedError: nil,
+			expectedError:        nil,
 		},
 		{
 			description: "wrong password",

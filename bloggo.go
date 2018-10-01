@@ -35,7 +35,7 @@ func main() {
 	zerolog.SetGlobalLevel(logger.ParseLevel(config.LogLevel))
 
 	// Catch signals
-	sig := make(chan os.Signal)
+	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 
 	e := echo.New()
@@ -50,11 +50,11 @@ func main() {
 	// Retry until it is successful or the retryDuration is over
 	var db *gorm.DB
 	startTime := time.Now()
-	try(log, config.MySQLRetryInterval, func() error {
+	err = try(log, config.MySQLRetryInterval, func() error {
 		db, err = gorm.Open("mysql", config.MySQLURL)
 		return err
 	}, func() bool {
-		return time.Now().Sub(startTime) < config.MySQLRetryDuration
+		return time.Since(startTime) < config.MySQLRetryDuration
 	})
 	if err != nil {
 		log.Fatal().Err(err).Msg("could not initialize mysql connection")
