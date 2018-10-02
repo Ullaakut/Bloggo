@@ -7,6 +7,7 @@ The idea is to use a fast and simple language for the backend, Go, and a simple 
 <p align="center">
     <img src="images/bloggologo.png" width="350"/>
 </p>
+
 <p align="center">
     <a href="#license">
         <img src="https://img.shields.io/badge/license-Apache-blue.svg?style=flat" />
@@ -20,8 +21,11 @@ The idea is to use a fast and simple language for the backend, Go, and a simple 
     <a href="https://travis-ci.org/Ullaakut/Bloggo">
         <img src="https://travis-ci.org/Ullaakut/Bloggo.svg?branch=master" />
     </a>
-    <a href='https://coveralls.io/github/Ullaakut/Bloggo?branch=add-ci'>
-        <img src='https://coveralls.io/repos/github/Ullaakut/Bloggo/badge.svg?branch=add-ci' alt='Coverage Status' />
+    <a href='https://coveralls.io/github/Ullaakut/Bloggo?branch=master'>
+        <img src='https://coveralls.io/repos/github/Ullaakut/Bloggo/badge.svg?branch=master' alt='Coverage Status' />
+    </a>
+    <a href="https://golangci.com/r/github.com/Ullaakut/cameradar">
+        <img src="https://golangci.com/badges/github.com/Ullaakut/cameradar.svg" />
     </a>
     <a href="https://godoc.org/github.com/Ullaakut/Bloggo">
         <img src="https://godoc.org/github.com/Ullaakut/Bloggo?status.svg" alt="GoDoc">
