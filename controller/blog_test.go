@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 	"time"
 
@@ -277,8 +278,14 @@ func TestRead(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
+	c := "lorem"
+	l := uint(5)
+
 	tests := []struct {
 		description string
+
+		contains *string
+		limit    *uint
 
 		repositoryErr      error
 		retrievedBlogPosts []*model.BlogPost
@@ -288,6 +295,25 @@ func TestFind(t *testing.T) {
 	}{
 		{
 			description: "passing test",
+
+			retrievedBlogPosts: []*model.BlogPost{
+				{
+					ID:        1,
+					Title:     "lorem ipsum",
+					Content:   "dolor sit amet",
+					Author:    "faketoken",
+					CreatedAt: time.Time{},
+				},
+			},
+
+			expectedHTTPCode: 200,
+			expectedHTTPBody: []byte(`[{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z"}]`),
+		},
+		{
+			description: "passing test with search filter",
+
+			contains: &c,
+			limit:    &l,
 
 			retrievedBlogPosts: []*model.BlogPost{
 				{
@@ -323,9 +349,19 @@ func TestFind(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.description, func(t *testing.T) {
+			// build url query params
+			params := url.Values{}
+			if test.contains != nil {
+				params.Add("contains", c)
+
+			}
+			if test.limit != nil {
+				params.Add("limit", fmt.Sprint(l))
+			}
+
 			// initialize the echo context to use for the test
 			e := echo.New()
-			r, err := http.NewRequest(echo.GET, "/posts/", nil)
+			r, err := http.NewRequest(echo.GET, fmt.Sprintf("/posts?%s", params.Encode()), nil)
 			if err != nil {
 				t.Fatal("could not create request")
 			}
@@ -336,7 +372,7 @@ func TestFind(t *testing.T) {
 			blogPostRepositoryMock := &repo.BlogPostRepositoryMock{}
 			if test.repositoryErr != nil || test.retrievedBlogPosts != nil {
 				blogPostRepositoryMock.
-					On("RetrieveAll").
+					On("Find", test.contains, test.limit).
 					Return(test.retrievedBlogPosts, test.repositoryErr).
 					Once()
 			}

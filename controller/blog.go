@@ -101,24 +101,23 @@ func (b *Blog) Read(ctx echo.Context) error {
 func (b *Blog) Find(ctx echo.Context) error {
 	// parse the limit from the URL parameter
 	var limit *uint
-	if ctx.Param("limit") == "" {
+	if ctx.QueryParam("limit") == "" {
 		limit = nil
 	} else {
-		limit64, err := strconv.ParseUint(ctx.Param("limit"), 10, 64)
-		if err != nil && len(ctx.Param("limit")) > 0 {
+		limit64, err := strconv.ParseUint(ctx.QueryParam("limit"), 10, 64)
+		if err != nil && len(ctx.QueryParam("limit")) > 0 {
 			err = errors.Wrap(err, "could not parse limit for blog post search")
 			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
-
-		*limit = uint(limit64)
+		limit = func(v uint64) *uint { rv := uint(v); return &rv }(limit64)
 	}
 
 	// parse the searched string from the URL parameter
 	var contains *string
-	if ctx.Param("contains") == "" {
+	if ctx.QueryParam("contains") == "" {
 		contains = nil
 	} else {
-		*contains = ctx.Param("contains")
+		contains = func(v string) *string { return &v }(ctx.QueryParam("contains"))
 	}
 
 	blogPosts, err := b.posts.Find(contains, limit)
