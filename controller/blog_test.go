@@ -287,6 +287,8 @@ func TestFind(t *testing.T) {
 		contains *string
 		limit    *uint
 
+		invalidLimit bool
+
 		repositoryErr      error
 		retrievedBlogPosts []*model.BlogPost
 
@@ -329,6 +331,17 @@ func TestFind(t *testing.T) {
 			expectedHTTPBody: []byte(`[{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z"}]`),
 		},
 		{
+			description: "invalid limit filter",
+
+			contains:     &c,
+			invalidLimit: true,
+
+			retrievedBlogPosts: nil,
+
+			expectedHTTPCode: 400,
+			expectedHTTPBody: []byte(`could not parse limit for blog post search: strconv.ParseUint: parsing "invalid": invalid syntax`),
+		},
+		{
 			description: "passing test: empty response",
 
 			retrievedBlogPosts: []*model.BlogPost{},
@@ -353,9 +366,10 @@ func TestFind(t *testing.T) {
 			params := url.Values{}
 			if test.contains != nil {
 				params.Add("contains", c)
-
 			}
-			if test.limit != nil {
+			if test.invalidLimit {
+				params.Add("limit", "invalid")
+			} else if test.limit != nil {
 				params.Add("limit", fmt.Sprint(l))
 			}
 
