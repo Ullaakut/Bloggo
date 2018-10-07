@@ -82,7 +82,7 @@ func main() {
 
 	// Blog post API
 	e.POST("/posts", blogController.Create, authController.Authorize)
-	e.GET("/posts", blogController.ReadAll)
+	e.GET("/posts", blogController.Find)
 	e.GET("/posts/:id", blogController.Read)
 	e.PUT("/posts/:id", blogController.Update, authController.Authorize)
 	e.DELETE("/posts/:id", blogController.Delete, authController.Authorize)

@@ -12,4 +12,4 @@ RUN sass grid.scss /usr/share/nginx/html/grid.css
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]g
+CMD ["nginx", "-g", "daemon off;"]

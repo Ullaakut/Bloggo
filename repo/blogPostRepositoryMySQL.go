@@ -1,6 +1,8 @@
 package repo
 
 import (
+	"fmt"
+
 	"github.com/Ullaakut/Bloggo/errortype"
 	"github.com/Ullaakut/Bloggo/model"
 
@@ -53,11 +55,22 @@ func (r *BlogPostRepositoryMySQL) Retrieve(id uint) (*model.BlogPost, error) {
 	return &post, err
 }
 
-// RetrieveAll returns the blog post with the given ID from the database
-func (r *BlogPostRepositoryMySQL) RetrieveAll() ([]*model.BlogPost, error) {
+// Find returns all of the blog posts that match its filters
+func (r *BlogPostRepositoryMySQL) Find(contains *string, limit *uint) ([]*model.BlogPost, error) {
 	var posts []*model.BlogPost
 
-	err := r.db.Find(&posts).Error
+	query := r.db.Debug()
+
+	if contains != nil {
+		c := fmt.Sprintf("%%%s%%", *contains)
+		query = query.Where("content LIKE ? OR title LIKE ?", c, c)
+	}
+
+	if limit != nil {
+		query = query.Limit(*limit)
+	}
+
+	err := query.Find(&posts).Error
 	return posts, err
 }
 
@@ -107,5 +120,3 @@ func (r *BlogPostRepositoryMySQL) Delete(id uint) error {
 	}
 	return err
 }
-
-// TODO: Add Find? Retrieve with filters could be cool (filter by id, author, etc.)

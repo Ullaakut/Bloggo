@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 	"time"
 
@@ -276,9 +277,17 @@ func TestRead(t *testing.T) {
 	}
 }
 
-func TestReadAll(t *testing.T) {
+func TestFind(t *testing.T) {
+	c := "lorem"
+	l := uint(5)
+
 	tests := []struct {
 		description string
+
+		contains *string
+		limit    *uint
+
+		invalidLimit bool
 
 		repositoryErr      error
 		retrievedBlogPosts []*model.BlogPost
@@ -303,6 +312,36 @@ func TestReadAll(t *testing.T) {
 			expectedHTTPBody: []byte(`[{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z"}]`),
 		},
 		{
+			description: "passing test with search filter",
+
+			contains: &c,
+			limit:    &l,
+
+			retrievedBlogPosts: []*model.BlogPost{
+				{
+					ID:        1,
+					Title:     "lorem ipsum",
+					Content:   "dolor sit amet",
+					Author:    "faketoken",
+					CreatedAt: time.Time{},
+				},
+			},
+
+			expectedHTTPCode: 200,
+			expectedHTTPBody: []byte(`[{"id":1,"author":"faketoken","title":"lorem ipsum","content":"dolor sit amet","created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z"}]`),
+		},
+		{
+			description: "invalid limit filter",
+
+			contains:     &c,
+			invalidLimit: true,
+
+			retrievedBlogPosts: nil,
+
+			expectedHTTPCode: 400,
+			expectedHTTPBody: []byte(`could not parse limit for blog post search: strconv.ParseUint: parsing "invalid": invalid syntax`),
+		},
+		{
 			description: "passing test: empty response",
 
 			retrievedBlogPosts: []*model.BlogPost{},
@@ -323,9 +362,20 @@ func TestReadAll(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.description, func(t *testing.T) {
+			// build url query params
+			params := url.Values{}
+			if test.contains != nil {
+				params.Add("contains", c)
+			}
+			if test.invalidLimit {
+				params.Add("limit", "invalid")
+			} else if test.limit != nil {
+				params.Add("limit", fmt.Sprint(l))
+			}
+
 			// initialize the echo context to use for the test
 			e := echo.New()
-			r, err := http.NewRequest(echo.GET, "/posts/", nil)
+			r, err := http.NewRequest(echo.GET, fmt.Sprintf("/posts?%s", params.Encode()), nil)
 			if err != nil {
 				t.Fatal("could not create request")
 			}
@@ -336,7 +386,7 @@ func TestReadAll(t *testing.T) {
 			blogPostRepositoryMock := &repo.BlogPostRepositoryMock{}
 			if test.repositoryErr != nil || test.retrievedBlogPosts != nil {
 				blogPostRepositoryMock.
-					On("RetrieveAll").
+					On("Find", test.contains, test.limit).
 					Return(test.retrievedBlogPosts, test.repositoryErr).
 					Once()
 			}
@@ -350,7 +400,7 @@ func TestReadAll(t *testing.T) {
 				log: log,
 			}
 
-			err = blogController.ReadAll(ctx)
+			err = blogController.Find(ctx)
 
 			if err == nil {
 				assert.Equal(t, test.expectedHTTPCode, w.Code, "wrong response status")
