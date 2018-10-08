@@ -59,7 +59,7 @@ func (r *BlogPostRepositoryMySQL) Retrieve(id uint) (*model.BlogPost, error) {
 func (r *BlogPostRepositoryMySQL) Find(contains *string, limit *uint) ([]*model.BlogPost, error) {
 	var posts []*model.BlogPost
 
-	query := r.db.Debug()
+	query := r.db
 
 	if contains != nil {
 		c := fmt.Sprintf("%%%s%%", *contains)
