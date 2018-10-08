@@ -3,7 +3,6 @@ package controller
 import (
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/Ullaakut/Bloggo/errortype"
 	"github.com/Ullaakut/Bloggo/model"
@@ -64,9 +63,6 @@ func (b *Blog) Create(ctx echo.Context) error {
 	// Set the author to the user ID so that the API can't be used manually
 	// to claim that a post was created by another user
 	post.Author = userID
-
-	// Set createdAt value to now
-	post.CreatedAt = time.Now()
 
 	createdPost, err := b.posts.Store(&post)
 	if err != nil {
