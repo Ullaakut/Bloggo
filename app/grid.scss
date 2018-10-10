@@ -18,13 +18,25 @@ body {
 }
 
 .menu {
-    background-color: rgb(197, 48, 48);
+    background-color: rgb(237, 230, 230);
     height: 5%;
 }
 
+#search-bar {
+    text-align: right;
+    font-size: 30px;
+    margin: 0 auto;
+    color: rgb(73, 73, 73);
+  }
+
+
 .profile {
-    background-color: rgb(51, 112, 27);
+    background-color: rgb(16, 13, 16);
     height: 15%;
+}
+
+.profile .grid {
+    margin-top: 110px;
 }
 
 #name {
@@ -53,7 +65,7 @@ body {
 #picture {
     height: 100px;
     width: 100px;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(216, 21, 21);
     border-radius: 100%;
 }
 
@@ -62,12 +74,21 @@ body {
 }
 
 .posts {
-    background-color: rgb(70, 230, 241);
-    height: 70%;
+    background-color: rgb(237, 230, 230);
+    margin: 0px;
+    list-style-type: none;
+}
+
+.post {
+    text-align: center;
+    background-color: black;
+    width: 80%;
+    margin: 30px auto;
+    border-radius: 10%;
 }
 
 .footer {
-    background-color: rgb(126, 34, 126);
+    background-color: rgb(16, 13, 16);
     height: 5%;
 }
 
@@ -81,7 +102,7 @@ body {
     body>.grid {
         grid-template-rows: 1fr 3fr 1fr;
         grid-template-columns: 2fr 5fr;
-        grid-template-areas: ". me" "pr po" "f po";
+        grid-template-areas: "pr me" "pr po" "f po";
     }
     .menu {
         grid-area: me;
@@ -92,7 +113,7 @@ body {
     }
     .profile .grid { 
         display: grid;
-        grid-template-rows: 15% 10% 8% 67%;
+        grid-template-rows: 20% 15% 15% 60%;
         grid-template-columns: 3fr 2fr;
         grid-template-areas: "na pi" "ti pi" "li pi" "bio bio";
     }
@@ -127,13 +148,13 @@ body {
     @media only screen and (max-width: 768px) {
         body>.grid {
             display: grid;
-            grid-template-rows: 1fr 3fr 5fr 1fr;
+            grid-template-rows: 1fr 5fr 8fr 1fr;
             grid-template-columns: 1fr;
             grid-template-areas: "me" "pr" "po" "f";
         }
         .profile .grid {
             display: grid;
-            grid-template-rows: 5fr 5fr 5fr 20fr;
+            grid-template-rows: 5fr 2fr 3fr 6fr;
             grid-template-columns: 3fr 2fr;
             grid-template-areas: "na pi" "ti pi" "li pi" "bio bio";
         }
