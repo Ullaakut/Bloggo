@@ -27,8 +27,7 @@ body {
     font-size: 30px;
     margin: 0 auto;
     color: rgb(73, 73, 73);
-  }
-
+}
 
 .profile {
     background-color: rgb(16, 13, 16);
@@ -40,14 +39,13 @@ body {
 }
 
 #name {
-    font-size: 30px;
+    font-size: 27px;
     font-weight: bold;
-    margin-top: 20px;
     margin-left: 10px;
+    padding-top: 20px;
 }
 
 #title {
-    margin: 5px;
     margin-left: 10px;
     font-size: 13px;
     font-weight: bold;
@@ -55,6 +53,11 @@ body {
 
 #links {
     margin-left: 10px;
+}
+
+.link {
+    padding: 3px;
+    font-size: 20px;
 }
 
 #picture {
@@ -71,6 +74,7 @@ body {
 
 #bio {
     margin: 10px;
+    padding-top: 20px;
 }
 
 .posts {
@@ -81,10 +85,14 @@ body {
 
 .post {
     text-align: center;
-    background-color: black;
+    background-color: rgb(255, 255, 255);
+    color: grey;
     width: 80%;
+    height: 150px;
     margin: 30px auto;
-    border-radius: 10%;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 10px;
 }
 
 .footer {
@@ -97,54 +105,46 @@ body {
         display: grid;
     }
     .grid>div {
-        height:auto;
+        height: auto;
     }
     body>.grid {
         grid-template-rows: 1fr 3fr 1fr;
-        grid-template-columns: 2fr 5fr;
+        grid-template-columns: 330px 5fr;
         grid-template-areas: "pr me" "pr po" "f po";
     }
     .menu {
         grid-area: me;
     }
-
     .profile {
         grid-area: pr;
     }
-    .profile .grid { 
+    .profile .grid {
         display: grid;
-        grid-template-rows: 20% 15% 15% 60%;
+        grid-template-rows: 50px 50px 30px 200px;
         grid-template-columns: 3fr 2fr;
         grid-template-areas: "na pi" "ti pi" "li pi" "bio bio";
     }
     #name {
         grid-area: na;
     }
- 
     #title {
         grid-area: ti;
     }
-
     #links {
         grid-area: li;
     }
-
     #picture {
         grid-area: pi;
     }
-
     #bio {
         grid-area: bio;
     }
-
     .posts {
         grid-area: po;
     }
-
     .footer {
         grid-area: f;
     }
-
     @media only screen and (max-width: 768px) {
         body>.grid {
             display: grid;
