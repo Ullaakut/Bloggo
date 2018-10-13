@@ -88,11 +88,15 @@ body {
     background-color: rgb(255, 255, 255);
     color: grey;
     width: 80%;
-    height: 150px;
+    height: 200px;
     margin: 30px auto;
     border-radius: 10px;
     border-style: solid;
     padding: 10px;
+}
+
+#description {
+    font-size: 15px;
 }
 
 .footer {
