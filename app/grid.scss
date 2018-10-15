@@ -1,3 +1,14 @@
+@font-face {
+    font-family: Fontin Regular;
+    src: url(fonts/fontin2_pc/Fontin-Regular.ttf);
+}
+
+@font-face {
+    font-family: Sans;
+    src: url(fonts/Raleway/Raleway-Medium.ttf);
+}
+
+
 body {
     margin: 0;
     height: 100%;
@@ -18,7 +29,7 @@ body {
 }
 
 .menu {
-    background-color: rgb(237, 230, 230);
+    background-color: rgb(255, 255, 255);
     height: 5%;
 }
 
@@ -78,7 +89,7 @@ body {
 }
 
 .posts {
-    background-color: rgb(237, 230, 230);
+    background-color: rgb(255, 255, 255);
     margin: 0px;
     list-style-type: none;
 }
@@ -98,7 +109,7 @@ body {
 
 #time-line {
     text-align: left;
-    font-family: Roboto;
+    font-family: Sans;
 }
 
 
@@ -110,18 +121,21 @@ h2 {
     text-align: left;
     color: rgb(45, 45, 45);
     margin-bottom: 5px;
+    font-family: Fontin Regular;
 }
 
 #description {
     text-align: left;
-    font-family: Roboto;
+    font-family: Sans;
+    font-weight: lighter;
 }
 
 #social {
     text-align: left;
     margin-top: 20px;
-    font-family: Roboto;
+    font-family: Sans;
 }
+
 
 #arrow {
     text-align: right;
