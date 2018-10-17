@@ -50,6 +50,7 @@ The idea is to use a fast and simple language for the backend, Go, and a simple 
 ## How to run it
 
 * `docker-compose up`
+* Open `localhost` in your favorite browser to access the app
 
 ## Configuration
 
