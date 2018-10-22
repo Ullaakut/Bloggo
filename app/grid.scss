@@ -4,8 +4,8 @@
 }
 
 @font-face {
-    font-family: Sans;
-    src: url(fonts/Raleway/Raleway-Medium.ttf);
+    font-family: Muli;
+    src: url(fonts/Muli/Muli-Regular.ttf);
 }
 
 
@@ -101,10 +101,10 @@ body {
     width: 80%;
     height: 150px;
     margin: 30px auto;
-    border: 2px solid #b1b1b1;
+    border: 1px solid #b1b1b1;
     border-radius: 10px;
     padding: 10px;
-    box-shadow: 0px 0px 3px 1px #d3d3d3;
+    box-shadow: 0px 0px 1px 1px #d3d3d3;
 }
 
 #time-line {
@@ -121,7 +121,7 @@ h2 {
     text-align: left;
     color: rgb(45, 45, 45);
     margin-bottom: 5px;
-    font-family: Fontin Regular;
+    font-family: Muli;
 }
 
 #description {
