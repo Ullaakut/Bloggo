@@ -8,12 +8,18 @@
     src: url(fonts/Muli/Muli-Regular.ttf);
 }
 
-
 body {
     margin: 0;
     height: 100%;
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+h2 {
+    text-align: left;
+    color: rgb(45, 45, 45);
+    margin-bottom: 5px;
+    font-family: Muli;
 }
 
 .grid {
@@ -22,7 +28,7 @@ body {
 
 #main {
     color: #fff;
-    font-size: 100%;
+    font-size: 16px;
     height: 100%;
     width: 100%;
     margin: 0;
@@ -96,7 +102,7 @@ body {
 
 .post {
     text-align: center;
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     color: grey;
     width: 80%;
     height: 150px;
@@ -109,24 +115,16 @@ body {
 
 #time-line {
     text-align: left;
-    font-family: Sans;
+    font-family: Multi;
 }
-
 
 #diamond {
     font-size: 12px;
 }
 
-h2 {
-    text-align: left;
-    color: rgb(45, 45, 45);
-    margin-bottom: 5px;
-    font-family: Muli;
-}
-
 #description {
     text-align: left;
-    font-family: Sans;
+    font-family: Multi;
     font-weight: lighter;
 }
 
@@ -135,7 +133,6 @@ h2 {
     margin-top: 20px;
     font-family: Sans;
 }
-
 
 #arrow {
     text-align: right;
