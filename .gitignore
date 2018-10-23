@@ -22,7 +22,10 @@ coverage.html
 # Build artifacts
 *.css.map
 grid.css
-app/grid.min.css
+*.min.css
 
 # Mockups
 *.psd
+app/grid.min.css
+*.ttf
+*.txt
