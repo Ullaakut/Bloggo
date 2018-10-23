@@ -19,5 +19,13 @@ coverage.html
 # VScode config
 .DS_Store
 
+# Build artifacts
 *.css.map
 grid.css
+*.min.css
+
+# Mockups
+*.psd
+app/grid.min.css
+*.ttf
+*.txt
