@@ -19,7 +19,7 @@ h2 {
   text-align: left;
   color: rgb(45, 45, 45);
   margin-bottom: 5px;
-  font-family: Muli;
+  font-family: Roboto;
 }
 
 .grid {
@@ -66,6 +66,7 @@ h2 {
   margin-left: 10px;
   font-size: 13px;
   font-weight: bold;
+  font-family: Roboto;
 }
 
 #links {
@@ -116,6 +117,7 @@ h2 {
 
 .time-line {
     float: left;
+    font-family: Roboto;
 }
 
 .tags {
@@ -124,6 +126,7 @@ h2 {
     border-radius: 5px;
     padding: 5px;
     margin-right: 10px;
+    font-family: Roboto;
 }
 
 .dot {
@@ -137,16 +140,18 @@ h2 {
 .description {
   text-align: left;
   font-weight: lighter;
+  font-family: Roboto;
 }
 
 .social {
-  text-align: left;
+  float: left;
   margin-top: 20px;
-  font-family: Sans;
+  font-family: Roboto;
 }
 
-.arrow {
-  text-align: right;
+.more {
+  float: right;
+  font-size: 30px;
   margin: 5px;
 }
 
