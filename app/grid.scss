@@ -30,10 +30,11 @@ h2 {
 #left {
   float: left;
   background-color: black; 
+  width: 400px;
+  height: auto;
 }
 
 #left .grid {
-    width: 400px;
     background-color: black;
 }
 
@@ -55,6 +56,10 @@ h2 {
     font-size: 30px;
     margin: 0 auto;
     color: rgb(73, 73, 73);
+}
+
+#profile {
+  margin: auto 0;
 }
 
 #name {
@@ -168,11 +173,6 @@ h2 {
     margin: 5px;
 }
 
-/*.footer {
-    background-color: rgb(16, 13, 16);
-    height: 5%;
-}*/
-
 @supports (display: grid) {
     .grid {
         display: grid;
@@ -183,13 +183,13 @@ h2 {
     #left .grid {
         grid-template-areas: "pr" "f";
     }
-    .profile {
+    #profile {
         grid-area: pr;
     }
     .footer {
         grid-area: f;
     }
-    .profile .grid {
+    #profile .grid {
         display: grid;
         grid-template-rows: 50px 50px 30px 200px;
         grid-template-columns: 3fr 2fr;
@@ -213,9 +213,7 @@ h2 {
     .posts {
         grid-area: po;
     }
-    .footer {
-        grid-area: f;
-    }
+
     @media only screen and (max-width: 768px) {
         body>.grid {
             display: grid;
@@ -223,7 +221,7 @@ h2 {
             grid-template-columns: 1fr;
             grid-template-areas: "me" "pr" "po" "f";
         }
-        .profile .grid {
+        #profile .grid {
             display: grid;
             grid-template-rows: 5fr 2fr 3fr 6fr;
             grid-template-columns: 3fr 2fr;
