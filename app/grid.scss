@@ -28,15 +28,14 @@ h2 {
 }
 
 #left {
-  float: left;
-  background-color: black; 
-  width: 400px;
-  height: auto;
+    display: block;
+    float: left;
+    background-color: black;
+    width: 400px;
+    height: 100%;
+    position: fixed;
 }
 
-#left .grid {
-    background-color: black;
-}
 
 #main {
     color: #fff;
@@ -59,7 +58,7 @@ h2 {
 }
 
 #profile {
-  margin: auto 0;
+    margin: auto 0;
 }
 
 #name {
@@ -100,6 +99,12 @@ h2 {
 #bio {
     margin: 10px;
     padding-top: 20px;
+}
+
+.right {
+    display: block;
+    float: right;
+    width: 58%;
 }
 
 .posts {
@@ -177,19 +182,19 @@ h2 {
     .grid {
         display: grid;
     }
-   /* .grid>div {
+    /* .grid>div {
         height: auto;
-    }*/
+    }
     #left .grid {
         grid-template-areas: "pr" "f";
-    }
+    }*/
     #profile {
         grid-area: pr;
     }
     .footer {
         grid-area: f;
     }
-    #profile .grid {
+    #profile {
         display: grid;
         grid-template-rows: 50px 50px 30px 200px;
         grid-template-columns: 3fr 2fr;
@@ -213,7 +218,6 @@ h2 {
     .posts {
         grid-area: po;
     }
-
     @media only screen and (max-width: 768px) {
         body>.grid {
             display: grid;
