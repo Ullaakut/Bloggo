@@ -15,7 +15,21 @@ body {
     font-family: Arial, Roboto, sans-serif;
 }
 
-h2 {
+#name {
+    font-size: 27px;
+    font-weight: bold;
+    margin-left: 10px;
+    padding-top: 20px;
+}
+
+#title {
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: Roboto;
+}
+
+h4 {
     text-align: left;
     color: rgb(45, 45, 45);
     margin-bottom: 2px;
@@ -59,20 +73,6 @@ h2 {
 
 #profile {
     margin: auto 0;
-}
-
-#name {
-    font-size: 27px;
-    font-weight: bold;
-    margin-left: 10px;
-    padding-top: 20px;
-}
-
-#title {
-    margin-left: 10px;
-    font-size: 13px;
-    font-weight: bold;
-    font-family: Roboto;
 }
 
 #links {
