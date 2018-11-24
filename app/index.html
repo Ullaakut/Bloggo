@@ -1,223 +1,181 @@
 <html>
-
-<header>
+  <header>
     <link rel="stylesheet" href="grid.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-        crossorigin="anonymous">
-</header>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+      crossorigin="anonymous"
+    />
+  </header>
 
-<body>
+  <body>
     <div id="main">
-        <div id="sidebar" class="grid">
-            <div id="profile" class="grid">
-                <h1 id="name">Michael Scarn</h1>
-                <h2 id="title">Secret agent @ Dunder Mifflin</h2>
-                <div id="links">
-                    <span class="link">
-                        <i class="fab fa-twitter"></i>
-                    </span>
-                    <span class="link">
-                        <i class="fab fa-facebook-f"></i>
-                    </span>
-                    <span class="link">
-                        <i class="fab fa-linkedin-in"></i>
-                    </span>
-                    <span class="link">
-                        <i class="fab fa-github"></i>
-                    </span>
-                </div>
-                <div id="picture"></div>
-                <h3 id="bio">
-                    Quisque ac imperdiet lorem. Ut faucibus diam a luctus hendrerit. Vivamus nec cursus dui. In lacus lacus, rhoncus eu commodo
-                    nec, placerat sed posuere.
-                </h3>
+      <div id="sidebar" class="grid">
+        <div class="menu">
+          <div id="search-bar"><i class="fas fa-search"></i></div>
+        </div>
+        <div id="profile" class="grid">
+          <h1 id="name">Michael Scarn</h1>
+          <h2 id="title">Secret agent @ Dunder Mifflin</h2>
+          <div id="links">
+            <span class="link"> <i class="fab fa-twitter"></i> </span>
+            <span class="link"> <i class="fab fa-facebook-f"></i> </span>
+            <span class="link"> <i class="fab fa-linkedin-in"></i> </span>
+            <span class="link"> <i class="fab fa-github"></i> </span>
+          </div>
+          <div id="picture"></div>
+          <h3 id="bio">
+            Quisque ac imperdiet lorem. Ut faucibus diam a luctus hendrerit.
+            Vivamus nec cursus dui. In lacus lacus, rhoncus eu commodo nec,
+            placerat sed posuere.
+          </h3>
+        </div>
+      </div>
+      <div class="content" class="grid">
+        <div class="menu">
+          <div id="search-bar"><i class="fas fa-search"></i></div>
+        </div>
+        <ul class="posts">
+          <li class="post">
+            <div class="top-post">
+              <span class="time-line">
+                <span class="date">2100/10/10</span>
+                <!-- <span class="time">50 min</span> -->
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">golang</span>
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">microservices</span>
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">microservices</span>
+              </span>
             </div>
-        </div>
-        <div class="content" class="grid">
-            <div class="menu">
-                <div id="search-bar">
-                    <i class="fas fa-search"></i>
-                </div>
+            <h4>How to run RTSPAllThings</h4>
+            <div class="description">
+              This story is targeted to a really niche audience, but I think it
+              addresses a problem that doesn't currently have any satisfying
+              answer...
             </div>
-            <ul class="posts">
-                <li class="post">
-                    <div class="top-post">
-                        <span class="time-line">
-                            <span class="date">2100/10/10</span>
-                            <!-- <span class="time">50 min</span> -->
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">golang</span>
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">microservices</span>
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">microservices</span>
-                        </span>
-                    </div>
-                    <h4>How to run RTSPAllThings</h4>
-                    <div class="description">
-                        This story is targeted to a really niche audience, but I think it addresses a problem that doesn't currently have any satisfying
-                        answer...
-                    </div>
-                    <span class="social">
-                        <span class="likes">
-                            50 likes
-                        </span>
-                        <span class="dot-social">
-                        </span>
-                        <span class="comments">
-                            20 comments
-                        </span>
-                        <span class="dot-social">
-                        </span>
-                        <span class="shares">5 shares</span>
-                    </span>
-                    <span class="more">
-                        <span class="dot-social">
-                        </span>
-                        <span class="dot-social"></span>
-                        <span class="dot-social"></span>
-                    </span>
-                </li>
-                <li class="post">
-                    <div class="top-post">
-                        <span class="time-line">
-                            <span class="date">2100/10/10</span>
-                            <!-- <span class="time">50 min</span> -->
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">golang</span>
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">microservices</span>
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">microservices</span>
-                        </span>
-                    </div>
-                    <h4>How to run RTSPAllThings</h4>
-                    <div class="description">
-                        This story is targeted to a really niche audience, but I think it addresses a problem that doesn't currently have any satisfying
-                        answer...
-                    </div>
-                    <span class="social">
-                        <span class="likes">
-                            50 likes
-                        </span>
-                        <span class="dot-social">
-                        </span>
-                        <span class="comments">
-                            20 comments
-                        </span>
-                        <span class="dot-social">
-                        </span>
-                        <span class="shares">5 shares</span>
-                    </span>
-                    <span class="more">
-                        <span class="dot-social"></span>
-                        <span class="dot-social"></span>
-                        <span class="dot-social"></span>
-                    </span>
-                </li>
-                <li class="post">
-                    <div class="top-post">
-                        <span class="time-line">
-                            <span class="date">2100/10/10</span>
-                            <!-- <span class="time">50 min</span> -->
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">golang</span>
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">microservices</span>
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">microservices</span>
-                        </span>
-                    </div>
-                    <h4>How to run RTSPAllThings</h4>
-                    <div class="description">
-                        This story is targeted to a really niche audience, but I think it addresses a problem that doesn't currently have any satisfying
-                        answer...
-                    </div>
-                    <span class="social">
-                        <span class="likes">
-                            50 likes
-                        </span>
-                        <span class="dot-social">
-                        </span>
-                        <span class="comments">
-                            20 comments
-                        </span>
-                        <span class="dot-social">
-                        </span>
-                        <span class="shares">5 shares</span>
-                    </span>
-                    <span class="more">
-                        <span class="dot-social">
-                        </span>
-                        <span class="dot-social"></span>
-                        <span class="dot-social"></span>
-                    </span>
-                </li>
-                <li class="post">
-                    <div class="top-post">
-                        <span class="time-line">
-                            <span class="date">2100/10/10</span>
-                            <!-- <span class="time">50 min</span> -->
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">golang</span>
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">microservices</span>
-                        </span>
-                        <span class="tags">
-                            <span class="dot"></span>
-                            <span class="tag">microservices</span>
-                        </span>
-                    </div>
-                    <h4>How to run RTSPAllThings</h4>
-                    <div class="description">
-                        This story is targeted to a really niche audience, but I think it addresses a problem that doesn't currently have any satisfying
-                        answer...
-                    </div>
-                    <span class="social">
-                        <span class="likes">
-                            50 likes
-                        </span>
-                        <span class="dot-social">
-                        </span>
-                        <span class="comments">
-                            20 comments
-                        </span>
-                        <span class="dot-social">
-                        </span>
-                        <span class="shares">5 shares</span>
-                    </span>
-                    <span class="more">
-                        <span class="dot-social">
-                        </span>
-                        <span class="dot-social"></span>
-                        <span class="dot-social"></span>
-                    </span>
-                </li>
-            </ul>
-        </div>
-        <div class="footer">
-        </div>
+            <span class="social">
+              <span class="likes"> 50 likes </span>
+              <span class="dot-social"> </span>
+              <span class="comments"> 20 comments </span>
+              <span class="dot-social"> </span>
+              <span class="shares">5 shares</span>
+            </span>
+            <span class="more">
+              <span class="dot-social"> </span>
+              <span class="dot-social"></span> <span class="dot-social"></span>
+            </span>
+          </li>
+          <li class="post">
+            <div class="top-post">
+              <span class="time-line">
+                <span class="date">2100/10/10</span>
+                <!-- <span class="time">50 min</span> -->
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">golang</span>
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">microservices</span>
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">microservices</span>
+              </span>
+            </div>
+            <h4>How to run RTSPAllThings</h4>
+            <div class="description">
+              This story is targeted to a really niche audience, but I think it
+              addresses a problem that doesn't currently have any satisfying
+              answer...
+            </div>
+            <span class="social">
+              <span class="likes"> 50 likes </span>
+              <span class="dot-social"> </span>
+              <span class="comments"> 20 comments </span>
+              <span class="dot-social"> </span>
+              <span class="shares">5 shares</span>
+            </span>
+            <span class="more">
+              <span class="dot-social"></span> <span class="dot-social"></span>
+              <span class="dot-social"></span>
+            </span>
+          </li>
+          <li class="post">
+            <div class="top-post">
+              <span class="time-line">
+                <span class="date">2100/10/10</span>
+                <!-- <span class="time">50 min</span> -->
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">golang</span>
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">microservices</span>
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">microservices</span>
+              </span>
+            </div>
+            <h4>How to run RTSPAllThings</h4>
+            <div class="description">
+              This story is targeted to a really niche audience, but I think it
+              addresses a problem that doesn't currently have any satisfying
+              answer...
+            </div>
+            <span class="social">
+              <span class="likes"> 50 likes </span>
+              <span class="dot-social"> </span>
+              <span class="comments"> 20 comments </span>
+              <span class="dot-social"> </span>
+              <span class="shares">5 shares</span>
+            </span>
+            <span class="more">
+              <span class="dot-social"> </span>
+              <span class="dot-social"></span> <span class="dot-social"></span>
+            </span>
+          </li>
+          <li class="post">
+            <div class="top-post">
+              <span class="time-line">
+                <span class="date">2100/10/10</span>
+                <!-- <span class="time">50 min</span> -->
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">golang</span>
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">microservices</span>
+              </span>
+              <span class="tags">
+                <span class="dot"></span> <span class="tag">microservices</span>
+              </span>
+            </div>
+            <h4>How to run RTSPAllThings</h4>
+            <div class="description">
+              This story is targeted to a really niche audience, but I think it
+              addresses a problem that doesn't currently have any satisfying
+              answer...
+            </div>
+            <span class="social">
+              <span class="likes"> 50 likes </span>
+              <span class="dot-social"> </span>
+              <span class="comments"> 20 comments </span>
+              <span class="dot-social"> </span>
+              <span class="shares">5 shares</span>
+            </span>
+            <span class="more">
+              <span class="dot-social"> </span>
+              <span class="dot-social"></span> <span class="dot-social"></span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="footer"></div>
     </div>
-</body>
+  </body>
+</html>

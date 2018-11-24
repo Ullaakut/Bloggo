@@ -60,7 +60,8 @@ h4 {
     margin: 0;
 }
 
-.menu {
+#sidebar .menu {
+    display: none;
     background-color: rgb(255, 255, 255);
     height: 5%;
 }
@@ -100,6 +101,11 @@ h4 {
 #bio {
     margin: 10px;
     padding-top: 20px;
+}
+
+.content .menu {
+    background-color: rgb(255, 255, 255);
+    height: 5%;
 }
 
 .content {
