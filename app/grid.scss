@@ -104,15 +104,15 @@ h4 {
     padding-top: 20px;
 }
 
+.content {
+    display: block;
+    width: 65%;
+    margin-left: 30%;
+}
+
 .content .menu {
     background-color: rgb(255, 255, 255);
     height: 5%;
-}
-
-.content {
-    display: block;
-    float: right;
-    width: 58%;
 }
 
 .posts {
