@@ -105,7 +105,8 @@ h4 {
 }
 
 .content {
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 65%;
     margin-left: 30%;
 }
