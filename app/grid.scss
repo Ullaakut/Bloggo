@@ -12,7 +12,7 @@ body {
     margin: 0;
     height: 100%;
     width: 100%;
-    font-family: Arial, Roboto, sans-serif;
+    font-family: Roboto;
 }
 
 #name {
@@ -51,7 +51,6 @@ h4 {
     height: 100%;
     position: fixed;
 }
-
 
 #main {
     color: #fff;
@@ -129,10 +128,10 @@ h4 {
     width: 80%;
     height: 160px;
     margin: 30px auto;
-    border: 1px solid #b1b1b1;
-    border-radius: 10px;
+    border: 1px solid #e4e4e4;
+    border-radius: 3px;
     padding: 10px;
-    box-shadow: 0px 0px 1px 1px #d3d3d3;
+    box-shadow: 0px 0px 1px 1px #f0f0f0;
 }
 
 .time-line {
@@ -143,7 +142,8 @@ h4 {
 
 .tags {
     float: right;
-    border: 1px solid #b1b1b1;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0px 0px 1px 1px #f7f7f7;
     border-radius: 5px;
     padding: 5px;
     margin-right: 10px;
