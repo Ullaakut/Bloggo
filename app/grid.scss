@@ -46,7 +46,6 @@ h4 {
 #sidebar {
     display: flex;
     flex-direction: column;
-    float: left;
     background-color: black;
     width: 400px;
     height: 100%;
@@ -54,6 +53,8 @@ h4 {
 }
 
 #main {
+    display: flex;
+    flex-direction: column;
     color: #fff;
     font-size: 16px;
     height: 100%;
@@ -105,8 +106,6 @@ h4 {
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
     width: auto;
     margin-left: 400px;
 }
@@ -243,15 +242,21 @@ h4 {
             grid-template-areas: "na pi" "ti pi" "li pi" "bio bio";
         }
 
+        #main {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #sidebar {
+            height: 50%;
+        }
+
         #sidebar .menu { 
-            background-color: rgb(255, 255, 255);
-            height: 5%;
+            display: block;
         }
 
         .content .menu {
             display: none;
-            background-color: rgb(255, 255, 255);
-            height: 5%;
         }
 
     }
