@@ -1,11 +1,11 @@
 @font-face {
-    font-family: Fontin Regular;
-    src: url(fonts/fontin2_pc/Fontin-Regular.ttf);
+    font-family: Lato Regular;
+    src: url(fonts/lato/Lato-Regular.ttf);
 }
 
 @font-face {
-    font-family: Muli;
-    src: url(fonts/Muli/Muli-Regular.ttf);
+    font-family: Merriweather-Regular;
+    src: url(fonts/merriweather/Merriweather-Regular.ttf);
 }
 
 body {
@@ -35,7 +35,8 @@ h4 {
     color: rgb(45, 45, 45);
     margin-bottom: 2px;
     margin-top: 40px;
-    font-family: Roboto;
+    font-family: Lato Regular;
+    font-size: 20px;
 }
 
 .grid {
@@ -126,7 +127,7 @@ h4 {
     background-color: white;
     color: grey;
     width: 80%;
-    height: 160px;
+    height: 180px;
     margin: 30px auto;
     border: 1px solid #e4e4e4;
     border-radius: 3px;
@@ -160,9 +161,10 @@ h4 {
 }
 
 .description {
+    font-size: 15px;
     text-align: left;
     font-weight: lighter;
-    font-family: Roboto;
+    font-family: Merriweather-Regular;
 }
 
 .social {
