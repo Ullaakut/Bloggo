@@ -68,8 +68,9 @@ h4 {
 #search-bar {
     text-align: right;
     font-size: 30px;
-    margin: 0 auto;
+    padding: 15px 20px 0px 0px;
     color: rgb(73, 73, 73);
+    font-size: 20px;
 }
 
 #profile {
@@ -103,10 +104,11 @@ h4 {
 }
 
 .content {
-    width: -moz-available;          /* WebKit-based browsers will ignore this. */
-    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-    width: fill-available;
+    /*width: -moz-available;          
+    width: -webkit-fill-available;  
+    width: fill-available; */ 
     overflow-y: scroll;
+    width: calc(100% - 400px);
 }
 
 .content .menu {
@@ -244,14 +246,22 @@ h4 {
         #main {
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
 
         #sidebar {
             height: auto;
+            width: 100%;
         }
 
         #sidebar .menu { 
             display: block;
+        }
+
+        .content {
+            width: 100%;
+            height: auto;
+            overflow-y: unset;
         }
 
         .content .menu {
