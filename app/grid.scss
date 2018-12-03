@@ -1,6 +1,6 @@
 @font-face {
-    font-family: Lato Regular;
-    src: url(fonts/lato/Lato-Regular.ttf);
+    font-family: Open_Sans;
+    src: url(fonts/Open_Sans/OpenSans-Regular.ttf);
 }
 
 @font-face {
@@ -35,7 +35,7 @@ h4 {
     color: rgb(45, 45, 45);
     margin-bottom: 20px;
     margin-top: 40px;
-    font-family: Lato Regular;
+    font-family: Roboto;
     font-size: 22px;
 }
 
@@ -62,7 +62,7 @@ h4 {
 #sidebar .menu {
     display: none;
     background-color: rgb(255, 255, 255);
-    height: 5%;
+    height: 30px;
 }
 
 #search-bar {
@@ -256,6 +256,7 @@ h4 {
 
         #sidebar .menu { 
             display: block;
+            height: 50px;
         }
 
         .content {
