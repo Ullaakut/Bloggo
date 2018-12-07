@@ -138,8 +138,8 @@ h4 {
 .time-line {
     float: left;
     font-family: Roboto;
-    padding: 5px;
-    font-size: 15px;
+    padding: 8px 5px 5px 0px;
+    font-size: 13px;
 }
 
 .tags {
@@ -148,7 +148,7 @@ h4 {
     box-shadow: 0px 0px 1px 1px #f7f7f7;
     border-radius: 5px;
     padding: 5px;
-    margin-right: 10px;
+    margin-right: 8px;
     font-family: Roboto;
     font-size: 13px;
 }
@@ -170,7 +170,7 @@ h4 {
 
 .social {
     float: left;
-    margin-top: 20px;
+    margin: 35px 0px 0px 0px;
     font-family: Roboto;
     font-size: 13px;
 }
@@ -186,8 +186,13 @@ h4 {
 
 .more {
     float: right;
-    font-size: 30px;
-    margin: 5px;
+    margin: 30px 15px 15px 15px;
+    width: 10px;
+    height: 10px;
+    border-style: solid;
+    border-width: 2px 2px 0px 0px;
+    border-color: grey;
+    transform: rotate(135deg);
 }
 
 @supports (display: grid) {
@@ -230,6 +235,7 @@ h4 {
     .list-posts {
         grid-area: po;
     }
+}
     @media only screen and (max-width: 768px) {
         body>.grid {
             display: grid;
@@ -279,4 +285,3 @@ h4 {
         }
 
     }
-}
