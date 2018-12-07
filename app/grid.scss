@@ -27,7 +27,6 @@ body {
     margin-top: 20px;
     font-size: 13px;
     font-weight: bold;
-    font-family: Roboto;
 }
 
 h4 {
@@ -35,18 +34,13 @@ h4 {
     color: rgb(45, 45, 45);
     margin-bottom: 20px;
     margin-top: 40px;
-    font-family: Roboto;
     font-size: 22px;
-}
-
-.grid {
-    display: block;
 }
 
 #main {
     display: flex;
     flex-direction: row;
-    color: #fff;
+    color: white;
     font-size: 16px;
     height: 100vh;
     width: 100%;
@@ -61,7 +55,7 @@ h4 {
 
 #sidebar .menu {
     display: none;
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     height: 30px;
 }
 
@@ -88,7 +82,7 @@ h4 {
 
 #picture {
     margin: 15px;
-    border: 3px solid #ffffff;
+    border: 3px solid white;
 }
 
 #picture {
@@ -112,12 +106,12 @@ h4 {
 }
 
 .content .menu {
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     height: 5%;
 }
 
 .list-posts {
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     margin: 0px;
     list-style-type: none;
 }
@@ -137,7 +131,6 @@ h4 {
 
 .time-line {
     float: left;
-    font-family: Roboto;
     padding: 8px 5px 5px 0px;
     font-size: 13px;
 }
@@ -149,7 +142,6 @@ h4 {
     border-radius: 5px;
     padding: 5px;
     margin-right: 8px;
-    font-family: Roboto;
     font-size: 13px;
 }
 
@@ -171,7 +163,6 @@ h4 {
 .social {
     float: left;
     margin: 35px 0px 0px 0px;
-    font-family: Roboto;
     font-size: 13px;
 }
 
@@ -190,27 +181,24 @@ h4 {
     width: 10px;
     height: 10px;
     border-style: solid;
-    border-width: 2px 2px 0px 0px;
+    border-width: 0px 2px 2px 0px;
     border-color: grey;
-    transform: rotate(135deg);
+    transform: rotate(45deg);
 }
 
 @supports (display: grid) {
     .grid {
         display: grid;
     }
-    /* .grid>div {
-        height: auto;
-    }
-    #sidebar .grid {
-        grid-template-areas: "pr" "f";
-    }*/
+
     #profile {
         grid-area: pr;
     }
+
     .footer {
         grid-area: f;
     }
+    
     #profile {
         display: grid;
         grid-template-rows: 50px 50px 30px 200px;
