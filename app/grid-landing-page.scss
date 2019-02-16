@@ -1,36 +1,51 @@
 body {
     height: 100%;
     background-color: black;
-    font-size: 3em;
     color: white;
 }
 
+#grid {
+    height: 100%;
+}
+
 #logo {
-    margin: 200px auto auto 300px;
+    /*margin: 200px auto auto 300px;*/
     height: 250px;
     width: auto;
 }
 
+#heading {
+    font-size: 2em;
+}
+
+#description {
+    font-size: 1em;
+}
+
 @supports (display: grid) {
-
-    #heading {
-        grid-area: heading;
-    }
-
-    #description {
-        grid-area: description;
-    }
-
-    #logo {
-        grid-area: logo;
-    }
     
     #grid {
         display: grid;
-        grid-template-rows: repeat(2, 2fr) repeat(3, 3fr) repeat(2, 2fr);
+        grid-template-rows: repeat(2, 3fr) repeat(3, 2fr) repeat(2, 3fr);
         grid-template-columns: repeat(2, 45%);
         grid-column-gap: 10%;
-        grid-template-areas: ". ." "logo heading" "logo description" "logo form" "logo form" "logo form" ". .";
+        grid-template-areas: ". ." "lo he" "lo de" "lo fo" "lo fo" "lo fo" ". .";
+    }
+
+    #heading {
+        grid-area: he;
+    }
+
+    #description {
+        grid-area: de;
+    }
+
+    #form {
+        grid-area: fo;
+    }
+
+    #logo {
+        grid-area: lo;
     }
     
 }
