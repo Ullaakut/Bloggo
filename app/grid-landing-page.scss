@@ -1,0 +1,36 @@
+body {
+    height: 100%;
+    background-color: black;
+    font-size: 3em;
+    color: white;
+}
+
+#logo {
+    margin: 200px auto auto 300px;
+    height: 250px;
+    width: auto;
+}
+
+@supports (display: grid) {
+
+    #heading {
+        grid-area: heading;
+    }
+
+    #description {
+        grid-area: description;
+    }
+
+    #logo {
+        grid-area: logo;
+    }
+    
+    #grid {
+        display: grid;
+        grid-template-rows: repeat(2, 2fr) repeat(3, 3fr) repeat(2, 2fr);
+        grid-template-columns: repeat(2, 45%);
+        grid-column-gap: 10%;
+        grid-template-areas: ". ." "logo heading" "logo description" "logo form" "logo form" "logo form" ". .";
+    }
+    
+}

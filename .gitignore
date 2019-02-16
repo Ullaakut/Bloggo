@@ -29,3 +29,5 @@ grid.css
 app/grid.min.css
 *.ttf
 *.txt
+*.png
+*.css
