@@ -2,6 +2,7 @@ body {
     height: 100%;
     background-color: black;
     color: white;
+    margin: 0 auto;
 }
 
 #grid {
@@ -14,14 +15,18 @@ body {
     width: auto;
 }
 
-#heading {
+.top-text {
     width: 70%;
     text-align: center;
+}
+
+#heading {
     font-size: 2em;
 }
 
 #description {
     font-size: 1em;
+    color: rgb(0, 140, 255);
 }
 
 .form-group {
@@ -35,11 +40,17 @@ input {
     box-sizing: border-box;
     border-radius: 10px;
   }
+
 button {
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
     width: 300px;
+}
+
+.button {
+    width: 70%;
+    text-align: center;
 }
 
 @supports (display: grid) {
