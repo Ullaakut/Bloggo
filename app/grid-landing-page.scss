@@ -25,6 +25,7 @@ body {
 }
 
 #description {
+    margin-bottom: 30px;
     font-size: 1em;
     color: rgb(0, 140, 255);
 }
@@ -34,22 +35,27 @@ body {
 }
 
 input {
-    width: 70%;
+    width: 60%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 6px;  
+
   }
 
 button {
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: 20px 0;
     box-sizing: border-box;
+    border-radius: 6px;
     width: 300px;
+    text-transform: uppercase;
+    background-color: rgb(0, 140, 255);
+    color: white;
 }
 
 .button {
-    width: 70%;
+    width: 60%;
     text-align: center;
 }
 
@@ -65,11 +71,14 @@ button {
 
     #heading {
         grid-area: he;
+        -webkit-align-self: flex-end; /* Safari 7.0+ */
         align-self: flex-end;
     }
 
     #description {
         grid-area: de;
+        -webkit-align-self: center; /* Safari 7.0+ */
+        align-self: center;
     }
 
     #form {
