@@ -168,7 +168,7 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:ff8c32bee60523e39cd04e58b14fae0c3d6adcbc419e9e0c3d991af0390ab270"
+  digest = "1:09e64bb459ade28b89f7d783b652cb25aacceab299faa018b3f4c7c970dc6975"
   name = "github.com/rs/zerolog"
   packages = [
     ".",
@@ -176,8 +176,8 @@
     "internal/json",
   ]
   pruneopts = "UT"
-  revision = "acf3980132bfcdc48638724e6e3d9e5749b85999"
-  version = "v1.14.3"
+  revision = "b806a5ecbe5347ad9ef05121fea8f4acc65fa5fc"
+  version = "v1.15.0"
 
 [[projects]]
   digest = "1:bd1ae00087d17c5a748660b8e89e1043e1e5479d0fea743352cda2f8dd8c4f84"
